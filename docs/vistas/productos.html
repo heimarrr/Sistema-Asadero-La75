@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos | Asadero La 75</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      display: flex;
+      background-color: #f8f9fa;
+      min-height: 100vh;
+    }
+    #sidebar {
+      width: 250px;
+      background-color: #212529;
+      color: white;
+      min-height: 100vh;
+    }
+    #main-content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar (cargada dinámicamente) -->
+  <div id="sidebar"></div>
+
+  <!-- Contenido principal -->
+  <div id="main-content">
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4">
+      <div class="container-fluid d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-drumstick-bite text-primary me-2"></i>Gestión de Productos</h5>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto">
+          <i class="fas fa-plus"></i> Nuevo Producto
+        </button>
+      </div>
+    </nav>
+
+    <!-- Tabla de productos -->
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <table class="table table-striped align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Pollo Asado Entero</td>
+              <td>Pollos</td>
+              <td>$22.000</td>
+              <td>15</td>
+              <td>
+                <button class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#modalProducto">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Bebida 1.5L</td>
+              <td>Bebidas</td>
+              <td>$4.500</td>
+              <td>30</td>
+              <td>
+                <button class="btn btn-sm btn-warning me-1" data-bs-toggle="modal" data-bs-target="#modalProducto">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal de producto -->
+    <div class="modal fade" id="modalProducto" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title"><i class="fas fa-box"></i> Registrar / Editar Producto</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <form>
+            <div class="modal-body">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nombre del Producto</label>
+                  <input type="text" class="form-control" placeholder="Ej: Pollo Asado Entero" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Categoría</label>
+                  <select class="form-select" required>
+                    <option selected disabled>Seleccione...</option>
+                    <option>Pollos</option>
+                    <option>Bebidas</option>
+                    <option>Adicionales</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Precio</label>
+                  <input type="number" class="form-control" placeholder="Ej: 22000" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Stock Inicial</label>
+                  <input type="number" class="form-control" placeholder="Ej: 10" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Descripción</label>
+                  <textarea class="form-control" rows="2" placeholder="Detalles del producto..."></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cargar sidebar dinámicamente -->
+  <script>
+    fetch("sidebar.html")
+      .then(response => response.text())
+      .then(data => document.getElementById("sidebar").innerHTML = data);
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
