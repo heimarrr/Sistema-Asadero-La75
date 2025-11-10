@@ -309,6 +309,12 @@ return [
         // Sidebar items:
         
         ['header' => 'menú'],
+        
+        [
+        'text' => 'home',
+        'url'  => 'home',
+        'icon' => 'fas fa-home',
+        ],
 
         [
         'text' => 'Productos',
