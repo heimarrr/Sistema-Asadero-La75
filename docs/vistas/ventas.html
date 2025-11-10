@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ventas | Asadero La 75</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    #sidebar {
+      width: 250px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #212529;
+      color: white;
+    }
+    #content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Contenedor para la sidebar -->
+  <div id="sidebar"></div>
+
+  <!-- Contenido -->
+  <div id="content">
+    <!-- Navbar -->
+     <h2 class="mb-4"><i class="fas fa-cash-register me-2 text-primary"></i></i>Gestión de ventas</h2>
+
+      <!-- Formulario de registro -->
+
+    <!-- Formulario de venta -->
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-primary text-white">
+        <i class="fas fa-plus"></i> Nueva Venta
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Cliente</label>
+              <select class="form-select" required>
+                <option selected disabled>Seleccione...</option>
+                <option>Juan Pérez</option>
+                <option>María López</option>
+                <option>Cliente General</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Producto</label>
+              <select class="form-select" required>
+                <option selected disabled>Seleccione...</option>
+                <option>Pollo Asado Entero</option>
+                <option>Bebida 1.5L</option>
+                <option>Papa Francesa</option>
+              </select>
+            </div>
+
+            <div class="col-md-2">
+              <label class="form-label">Cantidad</label>
+              <input type="number" class="form-control" min="1" value="1" required>
+            </div>
+
+            <div class="col-md-2">
+              <label class="form-label">Total</label>
+              <input type="text" class="form-control" placeholder="$0.00" readonly>
+            </div>
+
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Registrar Venta</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Historial de ventas -->
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-dark text-white">
+        <i class="fas fa-list"></i> Historial de Ventas
+      </div>
+      <div class="card-body">
+        <table class="table table-striped align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Cliente</th>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>31/10/2025</td>
+              <td>Juan Pérez</td>
+              <td>Pollo Asado Entero</td>
+              <td>2</td>
+              <td>$44.000</td>
+              <td>
+                <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Script para cargar la sidebar -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("sidebar.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("sidebar").innerHTML = data;
+
+          // marcar la opción activa
+          const currentPage = "ventas.html";
+          const links = document.querySelectorAll("#sidebar a");
+          links.forEach(link => {
+            if (link.getAttribute("href") === currentPage) {
+              link.classList.add("bg-secondary");
+            }
+          });
+        });
+    });
+  </script>
+
+</body>
+</html>
