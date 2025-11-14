@@ -13,7 +13,9 @@ class ProductoController extends Controller
     public function index()
     {
         $productos = Producto::with(['categoria', 'proveedor'])->get();
-        return view('productos.index', compact('productos'));
+        $categorias = Categoria::all();
+        $proveedores = Proveedor::all();
+        return view('productos.index', compact('productos', 'categorias', 'proveedores'));
     }
 
     // Mostrar formulario para crear

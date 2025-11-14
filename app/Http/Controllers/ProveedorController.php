@@ -7,59 +7,50 @@ use Illuminate\Http\Request;
 
 class ProveedorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Listar proveedores
     public function index()
     {
-        //
+        $proveedores = Proveedor::all();
+        return view('proveedores.index', compact('proveedores'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Guardar nuevo proveedor
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre'   => 'required|string|max:100',
+            'telefono' => 'nullable|string|max:20',
+            'direccion'=> 'nullable|string|max:150',
+            'correo'   => 'nullable|email|max:100'
+        ]);
+
+        Proveedor::create($request->all());
+
+        return redirect()->back()->with('success', 'Proveedor registrado con éxito.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Proveedor $proveedor)
+    // Actualizar proveedor
+    public function update(Request $request, $id)
     {
-        //
+        $proveedor = Proveedor::findOrFail($id);
+
+        $request->validate([
+            'nombre'   => 'required|string|max:100',
+            'telefono' => 'nullable|string|max:20',
+            'direccion'=> 'nullable|string|max:150',
+            'correo'   => 'nullable|email|max:100'
+        ]);
+
+        $proveedor->update($request->all());
+
+        return redirect()->back()->with('success', 'Proveedor actualizado correctamente.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Proveedor $proveedor)
+    // Eliminar proveedor
+    public function destroy($id)
     {
-        //
-    }
+        Proveedor::destroy($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Proveedor $proveedor)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Proveedor $proveedor)
-    {
-        //
+        return redirect()->back()->with('success', 'Proveedor eliminado.');
     }
 }

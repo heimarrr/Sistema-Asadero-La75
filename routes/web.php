@@ -5,6 +5,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProveedorController;
+
 
 Route::get('/', function () {
     return redirect('/login');
@@ -45,3 +48,7 @@ Route::prefix('usuarios')->group(function () {
     Route::put('/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
     Route::delete('/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
 });
+
+Route::resource('categorias', CategoriaController::class);
+Route::resource('proveedores', ProveedorController::class);
+

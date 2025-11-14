@@ -3,99 +3,99 @@
 @section('title', 'Gestión de Usuarios')
 
 @section('content_header')
-    {{-- ✅ Uso de ícono y etiqueta limpia para el encabezado --}}
-    <h1 class="mb-4"><i class="fas fa-users me-2"></i> Gestión de Usuarios</h1>
+    {{-- ✅ Encabezado de la página --}}
+    <h1><i class="fas fa-users me-2"></i> Gestión de Usuarios</h1>
 @stop
 
 @section('content')
-<div class="card shadow-lg"> {{-- 💡 Usar shadow-lg para un look más destacado --}}
-    
-    {{-- 🔍 Tarjeta para Búsqueda (Mejora UX) --}}
-    <div class="card-header border-0 pb-0">
-        <div class="d-flex justify-content-end">
-            {{-- 💡 Botón Crear: Usar data-bs-toggle (Bootstrap 5) y mover el botón a un bloque de herramientas --}}
-            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCrear">
-                <i class="fas fa-user-plus me-1"></i> Nuevo Usuario
-            </button>
-        </div>
-    </div>
-    
-    <div class="card-body">
-        
-        {{-- ✅ Manejo de Alertas: Usar la clase 'close' de Bootstrap 5 para el botón de cierre --}}
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle me-2"></i>
-                {{ session('success') }}
-                {{-- AdminLTE con Bootstrap 5 a veces requiere data-bs-dismiss --}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        
-        {{-- 💡 Manejo de Errores de Validación Global --}}
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-circle me-2"></i> Hay errores en el formulario. Por favor, revísalos.
-            </div>
-        @endif
+<div class="container-fluid mt-3">
 
-        {{-- 💡 DataTable Wrapper para Búsqueda, Ordenamiento y Paginación automática --}}
-        <div class="table-responsive">
-            <table id="usuarios-table" class="table table-bordered table-striped table-hover align-middle text-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th class="text-start">Nombre</th>
-                        <th class="text-start">Usuario</th>
-                        <th class="text-start">Correo</th>
-                        <th>Rol</th>
-                        <th style="width: 150px;">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($usuarios as $usuario)
-                        <tr>
-                            <td>{{ $usuario->id_usuario }}</td>
-                            <td class="text-start">{{ $usuario->nombre }}</td>
-                            <td class="text-start">{{ $usuario->usuario }}</td>
-                            <td class="text-start">{{ $usuario->correo }}</td>
-                            {{-- ✅ Corrección de Columna de Rol (Usando 'nombre') --}}
-                            <td><span class="badge bg-secondary">{{ $usuario->rol->nombre ?? 'N/A' }}</span></td> 
-                            <td>
-                                {{-- Botón Editar --}}
-                                <button class="btn btn-warning btn-xs me-1" 
-                                    data-bs-toggle="modal" {{-- 💡 Usar data-bs-toggle --}}
-                                    data-bs-target="#modalEditar{{ $usuario->id_usuario }}"> {{-- 💡 Usar data-bs-target --}}
-                                    <i class="fas fa-edit"></i>
-                                </button>
-
-                                {{-- Botón Eliminar --}}
-                                <button class="btn btn-danger btn-xs"
-                                    data-bs-toggle="modal" {{-- 💡 Usar data-bs-toggle --}}
-                                    data-bs-target="#modalEliminar{{ $usuario->id_usuario }}"> {{-- 💡 Usar data-bs-target --}}
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-muted text-center">No hay usuarios registrados.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    {{-- ✅ Inclusión de Paginación (Solo si hay páginas) --}}
-    @if ($usuarios->hasPages())
-        <div class="card-footer clearfix">
-            {{ $usuarios->links('pagination::bootstrap-5') }}
+    {{-- 1. Mensajes de éxito/alerta --}}
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            {{ session('success') }}
+            {{-- Usar data-bs-dismiss para Bootstrap 5 --}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
+    {{-- 💡 Manejo de Errores de Validación Global (Si se redirige con errores) --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle me-2"></i> Hay errores en el formulario. Por favor, revísalos.
+        </div>
+    @endif
+
+    {{-- 2. Tarjeta principal con la tabla --}}
+    <div class="card shadow-lg">
+        {{-- Encabezado de la tarjeta con título y botón de crear --}}
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">Usuarios Registrados</h3>
+            {{-- Botón Crear: Usar data-bs-toggle --}}
+            <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#modalCrear">
+                <i class="fas fa-user-plus me-1"></i> Nuevo Usuario
+            </button>
+    </div>
+
+        <div class="card-body">
+            {{-- 💡 DataTable Wrapper para Búsqueda, Ordenamiento y Paginación automática --}}
+            <div class="table-responsive">
+                <table id="usuarios-table" class="table table-bordered table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th class="text-center" style="width: 160px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($usuarios as $usuario)
+                            <tr>
+                                <td>{{ $usuario->id_usuario }}</td>
+                                <td>{{ $usuario->nombre }}</td>
+                                <td>{{ $usuario->usuario }}</td>
+                                <td>{{ $usuario->correo }}</td>
+                                {{-- ✅ Columna de Rol (Usando 'nombre' y badge) --}}
+                                <td class="text-center"><span class="badge bg-secondary">{{ $usuario->rol->nombre ?? 'N/A' }}</span></td>
+                                <td class="text-center">
+                                    {{-- Agrupar botones para una mejor presentación --}}
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        {{-- Botón Editar --}}
+                                        <button class="btn btn-info text-white"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalEditar{{ $usuario->id_usuario }}" title="Editar">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </button>
+
+                                        {{-- Botón Eliminar --}}
+                                        <button class="btn btn-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalEliminar{{ $usuario->id_usuario }}" title="Eliminar">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-muted text-center">No hay usuarios registrados.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        {{-- ✅ Se elimina el card-footer de paginación de Laravel si se usa DataTables con paginación --}}
+        
+    </div>
 </div>
 
-{{-- Inclusión de Modales --}}
+{{-- Inclusión de Modales (Fuera de la tarjeta principal) --}}
 @include('usuarios.partials.modal-crear', ['roles' => $roles])
 
 @foreach ($usuarios as $usuario)
@@ -107,7 +107,7 @@
 
 @section('js')
     <script>
-        // 💡 Función JavaScript para cerrar y limpiar el fondo de forma robusta (Soluciona el bloqueo de fondo)
+        // 💡 Función JavaScript para cerrar y limpiar el fondo de forma robusta (Se mantiene por si es necesario para modales anidados)
         function cerrarModalManual(buttonElement) {
             let modalElement = buttonElement.closest('.modal');
             if (modalElement) {
@@ -129,20 +129,26 @@
             }
         }
         
-        // 💡 Integración de DataTables (si se quiere usar la funcionalidad de búsqueda/ordenamiento)
+        // 💡 Configuración de DataTables Completa
         $(document).ready(function() {
-            // Inicializa DataTables solo si hay elementos en la tabla
-            if ($('#usuarios-table tbody tr').length > 0) {
-                 $('#usuarios-table').DataTable({
-                    "paging": false, // Desactivar la paginación de DataTables si usas Laravel
-                    "searching": true, // Activar la barra de búsqueda
-                    "ordering": true,  // Activar ordenamiento de columnas
-                    "info": false,     // Ocultar info de 1 a X de Y entradas
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-                    }
+             // Solo inicializa DataTables si hay filas
+             if ($('#usuarios-table tbody tr').length > 0) {
+                $('#usuarios-table').DataTable({
+                    responsive: true,
+                    lengthChange: false, // Mostrar selector de número de registros
+                    autoWidth: false,
+                    paging: true, // Activar la paginación de DataTables
+                    searching: true, // Activar la barra de búsqueda
+                    ordering: true, // Activar ordenamiento de columnas
+                    info: true, // Mostrar info de entradas
+                    // Adaptar la configuración de idioma para DataTables completo
+                    language: {
+                        "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json" // URL más moderna
+                    },
+                    // Personalizar el layout de DataTables (L: length, f: filter, t: table, i: info, p: pagination)
+                    "dom": '<"row"<"col-sm-12 d-flex justify-content-start"f>>rt<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
                 });
-            }
+             }
         });
     </script>
 @stop

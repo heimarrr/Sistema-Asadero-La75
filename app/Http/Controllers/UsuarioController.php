@@ -10,7 +10,7 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = Usuario::with('rol')->paginate(10);
+        $usuarios = Usuario::with('rol')->get();
         $roles = Rol::all(); // Necesario para los modales
         return view('usuarios.index', compact('usuarios', 'roles'));
     }

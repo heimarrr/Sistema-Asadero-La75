@@ -17,8 +17,14 @@
 
                     {{-- Precio de Venta --}}
                     <div class="mb-3">
-                        <label for="precio">Precio de Venta</label>
-                        <input type="number" id="precio" name="precio" step="0.01" class="form-control" min="0" required>
+                        <label for="precio_venta">Precio de Venta</label>
+                        <input type="number" id="precio_venta" name="precio_venta" step="0.01" class="form-control" min="0" required>
+                    </div>
+
+                    {{-- Precio de Compra --}}
+                    <div class="mb-3">
+                        <label for="precio_compra">Precio de Compra</label>
+                        <input type="number" id="precio_compra" name="precio_compra" step="0.01" class="form-control" min="0" required>
                     </div>
 
                     {{-- Stock Inicial --}}

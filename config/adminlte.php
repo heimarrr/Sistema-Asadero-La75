@@ -317,18 +317,31 @@ return [
         ],
 
         [
+        'text' => 'Usuarios y Roles',
+        'url' => 'usuarios',
+        'icon' => 'fas fa-fw fa-user',
+        ],
+
+        [
+        'text' => 'categorías',
+        'url'  => 'categorias',
+        'icon' => 'fas fa-tags',
+        ],
+
+        [
+        'text' => 'proveedores',
+        'url'  => 'proveedores',
+        'icon' => 'fas fa-truck',
+        ],
+        
+
+        [
         'text' => 'Productos',
         'url'  => 'productos',
         'icon' => 'fas fa-boxes',
         ],
         
-        [
-        'text' => 'Usuarios y Roles',
-        'url' => 'usuarios',
-        'icon' => 'fas fa-fw fa-user',
-        'classes' => 'bg-blue text-white'
-        ],
-        
+       
        
     ],
 

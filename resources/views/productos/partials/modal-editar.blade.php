@@ -5,26 +5,35 @@
             <form action="{{ route('productos.update', $producto->id_producto) }}" method="POST">
                 @csrf
                 @method('PUT')
+
                 <div class="modal-header bg-warning text-white">
                     <h5 class="modal-title" id="modalEditarLabel">Editar Producto: {{ $producto->nombre }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
-                    
+
                     {{-- Nombre --}}
                     <div class="mb-3">
                         <label>Nombre</label>
                         <input type="text" name="nombre" class="form-control"
                             value="{{ old('nombre', $producto->nombre) }}" required>
                     </div>
-                    
-                    {{-- Precio --}}
+
+                    {{-- Precio de Venta --}}
                     <div class="mb-3">
-                        <label>Precio</label>
-                        <input type="number" name="precio" step="0.01" class="form-control"
-                            value="{{ old('precio', $producto->precio) }}" required>
+                        <label>Precio de Venta</label>
+                        <input type="number" name="precio_venta" step="0.01" class="form-control"
+                            value="{{ old('precio_venta', $producto->precio_venta) }}" required>
                     </div>
-                    
+
+                    {{-- Precio de Compra --}}
+                    <div class="mb-3">
+                        <label>Precio de Compra</label>
+                        <input type="number" name="precio_compra" step="0.01" class="form-control"
+                            value="{{ old('precio_compra', $producto->precio_compra) }}" required>
+                    </div>
+
                     {{-- Stock --}}
                     <div class="mb-3">
                         <label>Stock</label>
@@ -36,7 +45,7 @@
                     <div class="mb-3">
                         <label>Categoría</label>
                         <select name="id_categoria" class="form-control" required>
-                            <option value="">Seleccione</option>
+                            <option value="">Seleccione Categoría</option>
                             @foreach ($categorias as $categoria)
                                 <option value="{{ $categoria->id_categoria }}"
                                     {{ old('id_categoria', $producto->id_categoria) == $categoria->id_categoria ? 'selected' : '' }}>
@@ -50,7 +59,7 @@
                     <div class="mb-3">
                         <label>Proveedor</label>
                         <select name="id_proveedor" class="form-control" required>
-                            <option value="">Seleccione</option>
+                            <option value="">Seleccione Proveedor</option>
                             @foreach ($proveedores as $proveedor)
                                 <option value="{{ $proveedor->id_proveedor }}"
                                     {{ old('id_proveedor', $producto->id_proveedor) == $proveedor->id_proveedor ? 'selected' : '' }}>
@@ -59,10 +68,11 @@
                             @endforeach
                         </select>
                     </div>
+
                 </div>
+
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-warning">Actualizar</button>
                 </div>
             </form>
