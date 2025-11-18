@@ -11,13 +11,13 @@ class Proveedor extends Model
 
     protected $table = 'proveedores';
     protected $primaryKey = 'id_proveedor';
-    public $timestamps = false;
 
     protected $fillable = [
         'nombre',
         'telefono',
         'direccion',
         'correo',
+        'status'
     ];
 
     public function productos()

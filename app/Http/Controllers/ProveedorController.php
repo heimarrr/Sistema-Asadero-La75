@@ -53,4 +53,13 @@ class ProveedorController extends Controller
 
         return redirect()->back()->with('success', 'Proveedor eliminado.');
     }
+
+    public function toggleEstado($id)
+    {
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->status = $proveedor->status ? 0 : 1;
+        $proveedor->save();
+
+        return redirect()->route('proveedores.index')->with('success', 'Estado del proveedor actualizado');
+    }
 }

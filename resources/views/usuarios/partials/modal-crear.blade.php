@@ -32,6 +32,13 @@
                 <option value="{{ $rol->id_rol }}">{{ $rol->nombre }}</option>
               @endforeach
             </select>
+            <div class="mb-3">
+                <label class="form-label">Estado</label>
+                <select name="estado" class="form-select" required>
+                    <option value="1" selected>Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

@@ -11,32 +11,32 @@ class Producto extends Model
 
     protected $table = 'productos';
     protected $primaryKey = 'id_producto';
-    public $timestamps = false;
 
     protected $fillable = [
         'nombre',
+        'descripcion',
+        'stock_actual',
+        'tipo',
+        'unidad_medida',
         'precio_compra',
         'precio_venta',
-        'stock',
+        'status',
         'id_categoria',
-        'id_proveedor',
     ];
 
+    // Relación con Categoría
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
 
-    public function proveedor()
-    {
-        return $this->belongsTo(Proveedor::class, 'id_proveedor', 'id_proveedor');
-    }
-
+    // Relación con DetalleCompras
     public function detalleCompras()
     {
         return $this->hasMany(DetalleCompra::class, 'id_producto', 'id_producto');
     }
 
+    // Relación con DetalleVentas
     public function detalleVentas()
     {
         return $this->hasMany(DetalleVenta::class, 'id_producto', 'id_producto');

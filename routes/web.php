@@ -7,6 +7,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\CompraController;
 
 
 Route::get('/', function () {
@@ -24,7 +25,7 @@ Route::get('/home', [HomeController::class, 'index'])
     ->middleware('auth');
 
 // Módulos protegidos
-Route::resource('productos', ProductoController::class);
+
 
 Route::get('/home', function () {
     return view('home');
@@ -41,14 +42,28 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
 });
 
-Route::prefix('usuarios')->group(function () {
-    Route::get('/', [UsuarioController::class, 'index'])->name('usuarios.index');
-    Route::post('/', [UsuarioController::class, 'store'])->name('usuarios.store');
-    Route::get('/{id}/edit', [UsuarioController::class, 'edit'])->name('usuarios.edit');
-    Route::put('/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
-    Route::delete('/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
-});
+//rutas de usuarios
+Route::resource('usuarios', UsuarioController::class);
+Route::post('usuarios/{id}/toggle-estado', [UsuarioController::class, 'toggleEstado'])
+    ->name('usuarios.toggleEstado');
 
+//rutas de categorias
 Route::resource('categorias', CategoriaController::class);
-Route::resource('proveedores', ProveedorController::class);
+Route::post('categorias/{id}/toggle-estado', [CategoriaController::class, 'toggleEstado'])
+    ->name('categorias.toggleEstado');
 
+//rutas de proveedores
+Route::resource('proveedores', ProveedorController::class);
+Route::post('proveedores/{id}/toggle-estado', [ProveedorController::class, 'toggleEstado'])
+    ->name('proveedores.toggleEstado');
+
+//rutas de productos
+Route::resource('productos', ProductoController::class);
+Route::post('productos/{id}/toggle-estado', [ProductoController::class, 'toggleEstado'])
+    ->name('productos.toggleEstado');
+
+//rutas de compras
+Route::resource('compras', CompraController::class);
+Route::post('compras/{id}/toggle-estado', [CompraController::class, 'toggleEstado'])
+    ->name('compras.toggleEstado');
+Route::patch('compras/{compra}/anular', [CompraController::class, 'anular'])->name('compras.anular');

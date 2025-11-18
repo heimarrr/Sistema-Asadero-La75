@@ -9,7 +9,7 @@
 @section('content')
 <div class="container-fluid mt-3">
 
-    {{-- 1. Mensajes de éxito/alerta --}}
+    {{-- Mensajes de éxito/alerta --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="fas fa-check-circle me-2"></i>
@@ -44,7 +44,8 @@
                             <th class="all">ID</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th class="text-center" style="width: 140px;">Acciones</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-center" style="width: 160px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,16 +55,29 @@
                                 <td>{{ $categoria->nombre }}</td>
                                 <td>{{ Str::limit($categoria->descripcion, 50) }}</td>
                                 <td class="text-center">
+                                    <span class="badge {{ $categoria->status ? 'bg-success' : 'bg-secondary' }}">
+                                        {{ $categoria->status ? 'Activo' : 'Inactivo' }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group">
                                         {{-- Editar --}}
-                                        <button class="btn btn-info text-white"
+                                        <button class="btn btn-info btn-sm text-white"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalEditarCategoria{{ $categoria->id_categoria }}">
                                             <i class="fas fa-edit"></i> Editar
                                         </button>
 
+                                        {{-- Cambiar estado --}}
+                                        <form action="{{ route('categorias.toggleEstado', $categoria->id_categoria) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-sm" title="Cambiar Estado">
+                                                <i class="fas fa-exchange-alt"></i> {{ $categoria->status ? 'Desactivar' : 'Activar' }}
+                                            </button>
+                                        </form>
+
                                         {{-- Eliminar --}}
-                                        <button class="btn btn-danger"
+                                        <button class="btn btn-danger btn-sm"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalEliminarCategoria{{ $categoria->id_categoria }}">
                                             <i class="fas fa-trash-alt"></i> Eliminar
@@ -73,7 +87,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center text-muted">
+                                <td colspan="5" class="text-center text-muted">
                                     No hay categorías registradas.
                                 </td>
                             </tr>
@@ -103,19 +117,16 @@
         if ($('#categorias-table tbody tr').length > 0) {
             $('#categorias-table').DataTable({
                 responsive: true,
-                lengthChange: false, // Mostrar selector de número de registros
+                lengthChange: false,
                 autoWidth: false,
-                paging: true, // Activar la paginación de DataTables
-                searching: true, // Activar la barra de búsqueda
-                ordering: true, // Activar ordenamiento de columnas
-                info: true, // Mostrar info de entradas
-                    // Adaptar la configuración de idioma para DataTables completo
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
                 language: {
-                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json" // URL más moderna
+                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
                 },
-                    // Personalizar el layout de DataTables (L: length, f: filter, t: table, i: info, p: pagination)
-                    "dom": '<"row"<"col-sm-12 d-flex justify-content-start"f>>rt<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-                
+                dom: '<"row"<"col-sm-12 d-flex justify-content-start"f>>rt<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
             });
         }
     });

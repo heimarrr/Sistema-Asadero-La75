@@ -14,7 +14,7 @@
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="fas fa-check-circle me-2"></i>
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
         </div>
     @endif
 
@@ -49,6 +49,7 @@
                             <th>Teléfono</th>
                             <th>Dirección</th>
                             <th>Correo</th>
+                            <th class="text-center">Estado</th>
                             <th class="text-center" style="width: 150px;">Acciones</th>
                         </tr>
                     </thead>
@@ -62,21 +63,39 @@
                                 <td>{{ $proveedor->direccion }}</td>
                                 <td>{{ $proveedor->correo }}</td>
 
+                                {{-- Estado --}}
+                                <td class="text-center">
+                                    <span class="badge {{ $proveedor->status ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $proveedor->status ? 'Activo' : 'Inactivo' }}
+                                    </span>
+                                </td>
+
+                                {{-- Acciones --}}
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group">
 
-                                        {{-- EDITAR --}}
-                                        <button class="btn btn-info text-white"
+                                        {{-- Editar --}}
+                                        <button class="btn btn-info btn-sm text-white"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#modalEditarProveedor{{ $proveedor->id_proveedor }}">
-                                            <i class="fas fa-edit"></i> Editar
+                                                data-bs-target="#modalEditarProveedor{{ $proveedor->id_proveedor }}"
+                                                title="Editar">
+                                            <i class="fas fa-edit"></i>
                                         </button>
 
-                                        {{-- ELIMINAR --}}
-                                        <button class="btn btn-danger"
+                                        {{-- Cambiar estado --}}
+                                        <form action="{{ route('proveedores.toggleEstado', $proveedor->id_proveedor) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning btn-sm" title="Cambiar Estado">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </button>
+                                        </form>
+
+                                        {{-- Eliminar --}}
+                                        <button class="btn btn-danger btn-sm"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#modalEliminarProveedor{{ $proveedor->id_proveedor }}">
-                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                                data-bs-target="#modalEliminarProveedor{{ $proveedor->id_proveedor }}"
+                                                title="Eliminar">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
 
                                     </div>
@@ -89,7 +108,7 @@
 
                         @empty
                             <tr>
-                                <td colspan="6" class="text-muted text-center">No hay proveedores registrados.</td>
+                                <td colspan="7" class="text-muted text-center">No hay proveedores registrados.</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -105,12 +124,9 @@
 
 @stop
 
-
 @section('js')
 <script>
-
     $(document).ready(function() {
-
         if ($('#proveedores-table tbody tr').length > 0) {
             $('#proveedores-table').DataTable({
                 responsive: true,
@@ -124,10 +140,9 @@
                     url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
                 },
                 dom: '<"row"<"col-sm-12 d-flex justify-content-start"f>>rt'
-                    + '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                     + '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
             });
         }
     });
-
 </script>
 @stop

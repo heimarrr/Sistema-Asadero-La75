@@ -340,6 +340,13 @@ return [
         'url'  => 'productos',
         'icon' => 'fas fa-boxes',
         ],
+
+        [
+        'text' => 'compras',
+        'url'  => 'compras',
+        'icon' => 'fas fa-shopping-bag',
+        ],
+        
         
        
        

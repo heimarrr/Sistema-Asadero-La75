@@ -46,4 +46,14 @@ class CategoriaController extends Controller
             return redirect()->back()->with('error', 'No se puede eliminar esta categoría porque tiene productos asociados.');
         }
     }
+
+      // Cambiar estado (activar/desactivar)
+    public function toggleEstado($id)
+    {
+        $categoria = Categoria::findOrFail($id);
+        $categoria->status = $categoria->status ? 0 : 1;
+        $categoria->save();
+
+        return redirect()->route('categorias.index')->with('success', 'Estado de la categoría actualizado');
+    }
 }

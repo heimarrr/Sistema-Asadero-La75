@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use App\Models\Categoria;
-use App\Models\Proveedor;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -12,18 +11,16 @@ class ProductoController extends Controller
     // Listar productos
     public function index()
     {
-        $productos = Producto::with(['categoria', 'proveedor'])->get();
+        $productos = Producto::with('categoria')->get();
         $categorias = Categoria::all();
-        $proveedores = Proveedor::all();
-        return view('productos.index', compact('productos', 'categorias', 'proveedores'));
+        return view('productos.index', compact('productos', 'categorias'));
     }
 
     // Mostrar formulario para crear
     public function create()
     {
         $categorias = Categoria::all();
-        $proveedores = Proveedor::all();
-        return view('productos.create', compact('categorias', 'proveedores'));
+        return view('productos.create', compact('categorias'));
     }
 
     // Guardar nuevo producto
@@ -31,11 +28,15 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'precio_compra' => 'required|numeric',
-            'precio_venta' => 'required|numeric',
-            'stock' => 'required|integer|min:0',
+            'descripcion' => 'nullable|string|max:200',
+            'stock_actual' => 'required|numeric|min:0',
+            'unidad_medida' => 'required|string|max:50',
+            'precio_compra' => 'nullable|numeric|min:0',
+            // VALIDACIÓN CORREGIDA: precio_venta es opcional
+            'precio_venta' => 'nullable|numeric|min:0', 
+            'tipo' => 'required|in:insumo,venta',
+            'status' => 'nullable|boolean', 
             'id_categoria' => 'required|exists:categorias,id_categoria',
-            'id_proveedor' => 'required|exists:proveedores,id_proveedor',
         ]);
 
         Producto::create($request->all());
@@ -48,8 +49,7 @@ class ProductoController extends Controller
     {
         $producto = Producto::findOrFail($id);
         $categorias = Categoria::all();
-        $proveedores = Proveedor::all();
-        return view('productos.edit', compact('producto', 'categorias', 'proveedores'));
+        return view('productos.edit', compact('producto', 'categorias'));
     }
 
     // Actualizar producto
@@ -57,15 +57,20 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'precio_compra' => 'required|numeric',
-            'precio_venta' => 'required|numeric',
-            'stock' => 'required|integer|min:0',
+            'descripcion' => 'nullable|string|max:200',
+            'stock_actual' => 'required|numeric|min:0',
+            'unidad_medida' => 'required|string|max:50',
+            'precio_compra' => 'nullable|numeric|min:0',
+            // VALIDACIÓN CORREGIDA: precio_venta es opcional
+            'precio_venta' => 'nullable|numeric|min:0', 
+            'tipo' => 'required|in:insumo,venta',
+            'status' => 'nullable|boolean', 
             'id_categoria' => 'required|exists:categorias,id_categoria',
-            'id_proveedor' => 'required|exists:proveedores,id_proveedor',
         ]);
 
         $producto = Producto::findOrFail($id);
-        $producto->update($request->all());
+        
+        $producto->update($request->all()); 
 
         return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente.');
     }
@@ -77,5 +82,15 @@ class ProductoController extends Controller
         $producto->delete();
 
         return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente.');
+    }
+
+    // Cambiar estado (activar/desactivar)
+    public function toggleEstado($id)
+    {
+        $producto = Producto::findOrFail($id);
+        $producto->status = $producto->status ? 0 : 1;
+        $producto->save();
+
+        return redirect()->route('productos.index')->with('success', 'Estado del producto actualizado');
     }
 }
