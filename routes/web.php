@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CompraController;
+use App\Http\Controllers\VentaController;
 
 
 Route::get('/', function () {
@@ -67,3 +68,9 @@ Route::resource('compras', CompraController::class);
 Route::post('compras/{id}/toggle-estado', [CompraController::class, 'toggleEstado'])
     ->name('compras.toggleEstado');
 Route::patch('compras/{compra}/anular', [CompraController::class, 'anular'])->name('compras.anular');
+
+//ruta de ventas
+Route::resource('ventas', VentaController::class);
+Route::post('ventas/{id}/toggle-estado', [VentaController::class, 'toggleEstado'])
+    ->name('ventas.toggleEstado');
+Route::patch('ventas/{venta}/anular', [VentaController::class, 'anular'])->name('ventas.anular');

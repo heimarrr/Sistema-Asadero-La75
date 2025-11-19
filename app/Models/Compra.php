@@ -26,7 +26,6 @@ class Compra extends Model
         'status',
     ];
     
-    // Relación: Una compra tiene muchos detalles de compra (One-to-Many)
     public function detalles()
     {
         return $this->hasMany(DetalleCompra::class, 'id_compra', 'id_compra');
@@ -41,6 +40,6 @@ class Compra extends Model
     // Relación con Usuario
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario'); // Asumiendo que tu tabla de usuarios usa 'id_usuario'
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario'); 
     }
 }

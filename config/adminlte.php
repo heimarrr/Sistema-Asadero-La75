@@ -347,6 +347,11 @@ return [
         'icon' => 'fas fa-shopping-bag',
         ],
         
+        [
+        'text' => 'ventas',
+        'url'  => 'ventas',
+        'icon' => 'fas fa-shopping-cart',
+        ],
         
        
        

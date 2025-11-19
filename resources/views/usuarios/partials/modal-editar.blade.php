@@ -76,6 +76,15 @@
                           <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="estado" class="form-select" required>
+                            <option value="1" selected>Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+                        
                     
                     <div class="mb-3">
                         <label for="rolEdit{{ $usuario->id_usuario }}" class="form-label">Rol</label>
@@ -92,7 +101,6 @@
                           <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     {{-- Botón Cancelar con fix de JS --}}

@@ -54,9 +54,7 @@ class CompraController extends Controller
         $request->validate([
             'id_proveedor' => 'required|exists:proveedores,id_proveedor',
             'fecha' => 'required|date',
-            // Asegúrate de que el total_compra es requerido y válido
             'total_compra' => 'required|numeric|min:0.01', 
-            // Validación de los productos en el detalle
             'productos' => 'required|array|min:1',
             'productos.*.id_producto' => 'required|exists:productos,id_producto',
             'productos.*.cantidad' => 'required|numeric|min:0.01',

@@ -20,7 +20,7 @@
                     <p><strong>Fecha de Compra:</strong> {{ \Carbon\Carbon::parse($compra->fecha)->format('d/m/Y') }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Registrado por:</strong> {{ $compra->usuario->name ?? 'N/A' }}</p>
+                    <p><strong>Registrado por:</strong> {{ $compra->usuario->nombre ?? 'N/A' }}</p>
                     <p><strong>Estado:</strong> 
                         <span class="badge {{ $compra->status == 1 ? 'bg-success' : 'bg-danger' }}">
                             {{ $compra->status == 1 ? 'Válida' : 'Anulada' }}
