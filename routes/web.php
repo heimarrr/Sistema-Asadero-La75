@@ -15,62 +15,44 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
-// Rutas de autenticación personalizadas
+// 1. Rutas de AUTENTICACIÓN (Estas NO deben estar protegidas)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Página principal después de login
-Route::get('/home', [HomeController::class, 'index'])
-    ->name('home')
-    ->middleware('auth');
 
-// Módulos protegidos
-
-
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
-
-//login para que solo usuarios autenticados 
-
+// 2. GRUPO DE RUTAS PROTEGIDAS (Middleware 'auth')
 Route::middleware(['auth'])->group(function () {
-    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
-    Route::get('/usuarios/crear', [UsuarioController::class, 'create'])->name('usuarios.create');
-    Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
-    Route::get('/usuarios/{id}/editar', [UsuarioController::class, 'edit'])->name('usuarios.edit');
-    Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('usuarios.update');
-    Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('usuarios.destroy');
+    
+    // Página principal
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    // Rutas de USUARIOS
+    Route::resource('usuarios', UsuarioController::class);
+    Route::post('usuarios/{id}/toggle-estado', [UsuarioController::class, 'toggleEstado'])->name('usuarios.toggleEstado');
+
+    // Rutas de CATEGORIAS
+    Route::resource('categorias', CategoriaController::class);
+    Route::post('categorias/{id}/toggle-estado', [CategoriaController::class, 'toggleEstado'])->name('categorias.toggleEstado');
+
+    // Rutas de PROVEEDORES
+    Route::resource('proveedores', ProveedorController::class);
+    Route::post('proveedores/{id}/toggle-estado', [ProveedorController::class, 'toggleEstado'])->name('proveedores.toggleEstado');
+
+    // Rutas de PRODUCTOS
+    Route::resource('productos', ProductoController::class);
+    Route::post('productos/{id}/toggle-estado', [ProductoController::class, 'toggleEstado'])->name('productos.toggleEstado');
+
+    // Rutas de COMPRAS
+    Route::resource('compras', CompraController::class);
+    Route::patch('compras/{compra}/anular', [CompraController::class, 'anular'])->name('compras.anular');
+    // Nota: 'toggle-estado' en compras/ventas no es común, pero si lo necesitas, déjalo.
+    Route::post('compras/{id}/toggle-estado', [CompraController::class, 'toggleEstado'])->name('compras.toggleEstado');
+
+
+    // Rutas de VENTAS
+    Route::resource('ventas', VentaController::class);
+    Route::patch('ventas/{venta}/anular', [VentaController::class, 'anular'])->name('ventas.anular');
+    Route::post('ventas/{id}/toggle-estado', [VentaController::class, 'toggleEstado'])->name('ventas.toggleEstado');
+
 });
-
-//rutas de usuarios
-Route::resource('usuarios', UsuarioController::class);
-Route::post('usuarios/{id}/toggle-estado', [UsuarioController::class, 'toggleEstado'])
-    ->name('usuarios.toggleEstado');
-
-//rutas de categorias
-Route::resource('categorias', CategoriaController::class);
-Route::post('categorias/{id}/toggle-estado', [CategoriaController::class, 'toggleEstado'])
-    ->name('categorias.toggleEstado');
-
-//rutas de proveedores
-Route::resource('proveedores', ProveedorController::class);
-Route::post('proveedores/{id}/toggle-estado', [ProveedorController::class, 'toggleEstado'])
-    ->name('proveedores.toggleEstado');
-
-//rutas de productos
-Route::resource('productos', ProductoController::class);
-Route::post('productos/{id}/toggle-estado', [ProductoController::class, 'toggleEstado'])
-    ->name('productos.toggleEstado');
-
-//rutas de compras
-Route::resource('compras', CompraController::class);
-Route::post('compras/{id}/toggle-estado', [CompraController::class, 'toggleEstado'])
-    ->name('compras.toggleEstado');
-Route::patch('compras/{compra}/anular', [CompraController::class, 'anular'])->name('compras.anular');
-
-//ruta de ventas
-Route::resource('ventas', VentaController::class);
-Route::post('ventas/{id}/toggle-estado', [VentaController::class, 'toggleEstado'])
-    ->name('ventas.toggleEstado');
-Route::patch('ventas/{venta}/anular', [VentaController::class, 'anular'])->name('ventas.anular');

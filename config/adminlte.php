@@ -115,9 +115,9 @@ return [
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'effect' => 'animation__wobble',
+            'width' => 80,
+            'height' => 80,
         ],
     ],
 
@@ -134,7 +134,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -300,12 +300,13 @@ return [
 
     'menu' => [
         // Navbar items:
-        
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
 
+        [
+        'type' => 'user-menu',       // Esto le dice a AdminLTE que dibuje el menú de usuario.
+        'topnav_right' => true,      // Esto lo coloca a la derecha de la barra superior.
+        ],
+        
+       
         // Sidebar items:
         
         ['header' => 'menú'],
@@ -352,9 +353,6 @@ return [
         'url'  => 'ventas',
         'icon' => 'fas fa-shopping-cart',
         ],
-        
-       
-       
     ],
 
     /*

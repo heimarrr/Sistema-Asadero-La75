@@ -40,7 +40,9 @@ class CompraController extends Controller
     {
         // Se seleccionan solo proveedores y productos activos
         $proveedores = Proveedor::where('status', 1)->get();
-        $productos = Producto::where('status', 1)->get();
+        $productos = Producto::where('status', 1)
+                        ->where('tipo', 'insumo')   // ← AQUÍ EL FILTRO
+                        ->get();
         
         return view('compras.create', compact('proveedores', 'productos'));
     }
