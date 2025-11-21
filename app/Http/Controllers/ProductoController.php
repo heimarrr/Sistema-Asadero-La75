@@ -32,7 +32,6 @@ class ProductoController extends Controller
             'stock_actual' => 'required|numeric|min:0',
             'unidad_medida' => 'required|string|max:50',
             'precio_compra' => 'nullable|numeric|min:0',
-            // VALIDACIÓN CORREGIDA: precio_venta es opcional
             'precio_venta' => 'nullable|numeric|min:0', 
             'tipo' => 'required|in:insumo,venta',
             'status' => 'nullable|boolean', 
@@ -61,7 +60,6 @@ class ProductoController extends Controller
             'stock_actual' => 'required|numeric|min:0',
             'unidad_medida' => 'required|string|max:50',
             'precio_compra' => 'nullable|numeric|min:0',
-            // VALIDACIÓN CORREGIDA: precio_venta es opcional
             'precio_venta' => 'nullable|numeric|min:0', 
             'tipo' => 'required|in:insumo,venta',
             'status' => 'nullable|boolean', 

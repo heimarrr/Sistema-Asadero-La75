@@ -353,6 +353,12 @@ return [
         'url'  => 'ventas',
         'icon' => 'fas fa-shopping-cart',
         ],
+
+        [
+        'text' => 'reportes',
+        'url'  => 'reportes',
+        'icon' => 'fas fa-chart-line',
+        ],
     ],
 
     /*
