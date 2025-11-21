@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CompraController;
 use App\Http\Controllers\VentaController;
+use App\Http\Controllers\ReporteController;
 
 
 Route::get('/', function () {
@@ -54,5 +55,20 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ventas', VentaController::class);
     Route::patch('ventas/{venta}/anular', [VentaController::class, 'anular'])->name('ventas.anular');
     Route::post('ventas/{id}/toggle-estado', [VentaController::class, 'toggleEstado'])->name('ventas.toggleEstado');
+
+    //ruta de reportes
+
+     Route::get('/reportes', [ReporteController::class, 'index'])
+        ->name('reportes.index');
+
+    Route::get('/reportes/ventas', [ReporteController::class, 'ventas'])
+        ->name('reportes.ventas');
+
+    Route::get('/reportes/compras', [ReporteController::class, 'compras'])
+        ->name('reportes.compras');
+
+    Route::get('/reportes/inventario', [ReporteController::class, 'inventario'])
+        ->name('reportes.inventario');
+
 
 });
