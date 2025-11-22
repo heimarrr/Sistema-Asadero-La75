@@ -33,9 +33,6 @@
                             <input type="date" name="fecha" id="fecha" class="form-control @error('fecha') is-invalid @enderror" value="{{ old('fecha', date('Y-m-d')) }}" required>
                             @error('fecha') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
-
-                        {{-- Aquí se colocaría el campo de Cliente, si fuera necesario --}}
-                        
                     </div>
 
                     <hr>

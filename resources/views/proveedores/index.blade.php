@@ -79,15 +79,15 @@
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalEditarProveedor{{ $proveedor->id_proveedor }}"
                                                 title="Editar">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit"></i> Editar
                                         </button>
 
                                         {{-- Cambiar estado --}}
                                         <form action="{{ route('proveedores.toggleEstado', $proveedor->id_proveedor) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm" title="Cambiar Estado">
-                                                <i class="fas fa-exchange-alt"></i>
-                                            </button>
+                                                <i class="fas fa-exchange-alt"></i> Desactivar
+                                            </button> 
                                         </form>
 
                                         {{-- Eliminar --}}
@@ -95,7 +95,7 @@
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalEliminarProveedor{{ $proveedor->id_proveedor }}"
                                                 title="Eliminar">
-                                            <i class="fas fa-trash-alt"></i>
+                                            <i class="fas fa-trash-alt"></i> Eliminar
                                         </button>
 
                                     </div>
