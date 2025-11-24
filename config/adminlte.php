@@ -64,7 +64,7 @@ return [
     */
 
     'logo' => '<b>Asadero</b> la75',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3po660fjvf3UxocI8pl20fxX7WI9Jnzwl7g&s',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3po660fjvf3UxocI8pl20fxX7WI9Jnzwl7g&s',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -113,11 +113,11 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3po660fjvf3UxocI8pl20fxX7WI9Jnzwl7g&s',
             'alt' => 'AdminLTE Preloader Image',
-            'effect' => 'animation__wobble',
-            'width' => 80,
-            'height' => 80,
+            'effect' => 'animate__headShake',
+            'width' => 200,
+            'height' => 200,
         ],
     ],
 
@@ -136,7 +136,7 @@ return [
     'usermenu_enabled' => true,
     'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
+    'usermenu_image' => true,
     'usermenu_desc' => false,
     'usermenu_profile_url' => false,
 
@@ -309,56 +309,67 @@ return [
        
         // Sidebar items:
         
-        ['header' => 'menú'],
-        
-        [
-        'text' => 'home',
+        ['header' => 'MENÚ PRINCIPAL'],
+
+    [
+        'text' => 'Home',
         'url'  => 'home',
         'icon' => 'fas fa-home',
-        ],
+    ],
 
-        [
+    // ======= MÓDULO USUARIOS =======
+    ['header' => 'GESTIÓN DE USUARIOS'],
+
+    [
         'text' => 'Usuarios y Roles',
-        'url' => 'usuarios',
+        'url'  => 'usuarios',
         'icon' => 'fas fa-fw fa-user',
-        ],
+    ],
 
-        [
-        'text' => 'categorías',
+    // ======= MÓDULO INVENTARIO =======
+    ['header' => 'INVENTARIO'],
+
+    [
+        'text' => 'Categorías',
         'url'  => 'categorias',
         'icon' => 'fas fa-tags',
-        ],
+    ],
 
-        [
-        'text' => 'proveedores',
+    [
+        'text' => 'Proveedores',
         'url'  => 'proveedores',
         'icon' => 'fas fa-truck',
-        ],
-        
+    ],
 
-        [
+    [
         'text' => 'Productos',
         'url'  => 'productos',
         'icon' => 'fas fa-boxes',
-        ],
+    ],
 
-        [
-        'text' => 'compras',
+    // ======= MÓDULO MOVIMIENTOS =======
+    ['header' => 'MOVIMIENTOS'],
+
+    [
+        'text' => 'Compras',
         'url'  => 'compras',
         'icon' => 'fas fa-shopping-bag',
-        ],
-        
-        [
-        'text' => 'ventas',
+    ],
+
+    [
+        'text' => 'Ventas',
         'url'  => 'ventas',
         'icon' => 'fas fa-shopping-cart',
-        ],
+    ],
 
-        [
-        'text' => 'reportes',
+    // ======= MÓDULO REPORTES =======
+    ['header' => 'REPORTES'],
+
+    [
+        'text' => 'Reportes',
         'url'  => 'reportes',
         'icon' => 'fas fa-chart-line',
-        ],
+    ],
     ],
 
     /*

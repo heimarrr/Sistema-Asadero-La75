@@ -32,4 +32,10 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
     }
+
+    public function adminlte_image()
+    {
+        // Ejemplo: Retorna una imagen por defecto o una dinámica desde un campo de la base de datos
+        return 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png';
+    }
 }
