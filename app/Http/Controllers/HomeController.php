@@ -61,7 +61,6 @@ class HomeController extends Controller
                 $item->nombre = $item->usuario->nombre ?? 'Usuario Eliminado';
                 return $item;
             });
-            
 
         // 9️⃣ Top 5 más vendidos
         $topVendidos = DB::table('detalle_ventas')
