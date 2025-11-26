@@ -49,9 +49,18 @@ class ProveedorController extends Controller
     // Eliminar proveedor
     public function destroy($id)
     {
-        Proveedor::destroy($id);
+        try {
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->delete();
 
-        return redirect()->back()->with('success', 'Proveedor eliminado.');
+        return redirect()->back()->with('success', 'Proveedor eliminado correctamente');
+    }
+    catch (\Illuminate\Database\QueryException $e) {
+        return redirect()->back()->with('error', 'No se puede eliminar este proveedor porque tiene compras asociadas.');
+    }
+    catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Ocurrió un error al eliminar el proveedor.');
+    }
     }
 
     public function toggleEstado($id)

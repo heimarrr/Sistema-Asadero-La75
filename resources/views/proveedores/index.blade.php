@@ -19,11 +19,14 @@
     @endif
 
     {{-- Errores --}}
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <i class="fas fa-exclamation-circle me-2"></i> Hay errores en el formulario. Por favor, revisa los campos.
-        </div>
-    @endif
+    @if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
 
     <div class="card shadow-lg">
 

@@ -71,10 +71,21 @@ class UsuarioController extends Controller
     // Eliminar usuario
     public function destroy($id)
     {
-        $usuario = Usuario::findOrFail($id);
+        
+        try {
+        $usuario = usuario::findOrFail($id);
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente');
+        return redirect()->back()->with('success', 'Usuario eliminado correctamente');
+    } 
+    catch (\Illuminate\Database\QueryException $e) {
+        // Error de llave foránea
+        return redirect()->back()->with('error', 'No se puede eliminar este usuario porque tiene datos asociados.');
+    }
+    catch (\Exception $e) {
+        // Otros errores
+        return redirect()->back()->with('error', 'Ocurrió un error al intentar eliminar este usuario.');
+    }
     }
 
     // Cambiar estado (activar/desactivar)
