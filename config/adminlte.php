@@ -68,7 +68,7 @@ return [
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt' => 'asadero Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -114,7 +114,7 @@ return [
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3po660fjvf3UxocI8pl20fxX7WI9Jnzwl7g&s',
-            'alt' => 'AdminLTE Preloader Image',
+            'alt' => 'asadero Preloader Image',
             'effect' => 'animate__headShake',
             'width' => 200,
             'height' => 200,

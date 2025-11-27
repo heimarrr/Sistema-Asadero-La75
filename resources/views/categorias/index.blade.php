@@ -19,11 +19,14 @@
     @endif
 
     {{-- Manejo de errores --}}
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <i class="fas fa-exclamation-circle me-2"></i> Hay errores en el formulario. Por favor, revísalos.
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     @endif
+
 
     {{-- Tarjeta principal --}}
     <div class="card shadow-lg">
@@ -109,6 +112,17 @@
     @endforeach
 @endif
 
+@stop
+
+@section('css')
+<style>
+    .dataTables_filter input {
+        width: 400px !important; /* Ajusta el ancho */
+        height: 35px;            /* Alto opcional */
+        font-size: 14px;         /* Texto */
+        border-radius: 8px;      /* Bordes */
+    }
+</style>
 @stop
 
 @section('js')
