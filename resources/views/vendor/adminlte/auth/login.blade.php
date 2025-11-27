@@ -62,17 +62,9 @@
             @enderror
         </div>
 
-        {{-- Recordarme y botón --}}
-        <div class="row">
-            <div class="col-8">
-                <div class="icheck-primary">
-                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label for="remember">Recordarme</label>
-                </div>
-            </div>
 
-            <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block">
+            <div class="col-5">
+                <button type="submit" class="btn btn-dark btn-block">
                     <i class="fas fa-sign-in-alt"></i> Ingresar
                 </button>
             </div>
@@ -80,12 +72,3 @@
     </form>
 @stop
 
-@section('auth_footer')
-    @if ($passwordResetUrl)
-        <p class="my-0">
-            <a href="{{ $passwordResetUrl }}">Olvidé mi contraseña</a>
-        </p>
-    @endif
-
-
-@stop

@@ -127,6 +127,17 @@
 
 @stop
 
+@section('css')
+<style>
+    .dataTables_filter input {
+        width: 400px !important; /* Ajusta el ancho */
+        height: 35px;            /* Alto opcional */
+        font-size: 14px;         /* Texto */
+        border-radius: 8px;      /* Bordes */
+    }
+</style>
+@stop
+
 @section('js')
 <script>
     $(document).ready(function() {
