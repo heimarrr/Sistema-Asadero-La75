@@ -47,7 +47,6 @@ Route::middleware(['auth'])->group(function () {
     // Rutas de COMPRAS
     Route::resource('compras', CompraController::class);
     Route::patch('compras/{compra}/anular', [CompraController::class, 'anular'])->name('compras.anular');
-    // Nota: 'toggle-estado' en compras/ventas no es común, pero si lo necesitas, déjalo.
     Route::post('compras/{id}/toggle-estado', [CompraController::class, 'toggleEstado'])->name('compras.toggleEstado');
 
 
