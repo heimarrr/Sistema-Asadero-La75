@@ -299,77 +299,117 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
-
+    
+        // ==========================================================
+        // NAVBAR ITEMS
+        // ==========================================================
         [
-        'type' => 'user-menu',       // Esto le dice a AdminLTE que dibuje el menú de usuario.
-        'topnav_right' => true,      // Esto lo coloca a la derecha de la barra superior.
+            'type' => 'user-menu',  
+            'topnav_right' => true, 
         ],
         
-       
-        // Sidebar items:
-        
+        // ==========================================================
+        // SIDEBAR ITEMS
+        // ==========================================================
+
         ['header' => 'MENÚ PRINCIPAL'],
 
-    [
-        'text' => 'Home',
-        'url'  => 'home',
-        'icon' => 'fas fa-home',
-    ],
+        [
+            'text' => 'Home',
+            'url'  => 'home',
+            'icon' => 'fas fa-home',
+        ],
+        
+        // ---
+        
+        // ==========================================================
+        // 📦 MÓDULO INVENTARIO (Submenú)
+        // ==========================================================
+        [
+            'text' => 'Inventario', // Elemento Padre
+            'icon' => 'fas fa-boxes',
+            // Padre visible para todos los que necesitan ver Productos
+            'can'  => ['admin', 'cajero', 'compras'], 
+            'submenu' => [
+                // CORRECCIÓN 1: Deben tener el 'can' explícito para no heredar el del padre
+                [
+                    'text' => 'Categorías',
+                    'url'  => 'categorias',
+                    'icon' => 'fas fa-tags',
+                    'can'  => 'admin', 
+                ],
+                // CORRECCIÓN 1: Deben tener el 'can' explícito
+                [
+                    'text' => 'Proveedores',
+                    'url'  => 'proveedores',
+                    'icon' => 'fas fa-truck',
+                    'can'  => 'admin', 
+                ],
+                [
+                    'text' => 'Productos',
+                    'url'  => 'productos',
+                    'icon' => 'fas fa-box',
+                    'can'  => ['admin', 'cajero', 'compras'], // Visible para todos
+                ],
+            ],
+        ],
+        
+        // ---
 
-    // ======= MÓDULO USUARIOS =======
-    ['header' => 'GESTIÓN DE USUARIOS'],
+        // ==========================================================
+        // 🔄 MÓDULO MOVIMIENTOS (Submenú con roles mixtos)
+        // ==========================================================
+        [
+            'text' => 'Movimientos', // Elemento Padre
+            'icon' => 'fas fa-exchange-alt',
+            // Visible si es admin, cajero o compras
+            'can'  => ['admin', 'cajero', 'compras'], 
+            'submenu' => [
+                // COMPRAS
+                [
+                    'text' => 'Compras',
+                    'url'  => 'compras',
+                    'icon' => 'fas fa-shopping-bag',
+                    'can' => ['compras', 'admin'], // visible solo para Compras/Admin
+                ],
+                // VENTAS
+                [
+                    'text' => 'Ventas',
+                    'url'  => 'ventas',
+                    'icon' => 'fas fa-shopping-cart',
+                    'can' => ['admin', 'cajero'], // visible solo para Cajero/Admin
+                ],
+            ],
+        ],
+        
+        // ---
 
-    [
-        'text' => 'Usuarios y Roles',
-        'url'  => 'usuarios',
-        'icon' => 'fas fa-fw fa-user',
-    ],
-
-    // ======= MÓDULO INVENTARIO =======
-    ['header' => 'INVENTARIO'],
-
-    [
-        'text' => 'Categorías',
-        'url'  => 'categorias',
-        'icon' => 'fas fa-tags',
-    ],
-
-    [
-        'text' => 'Proveedores',
-        'url'  => 'proveedores',
-        'icon' => 'fas fa-truck',
-    ],
-
-    [
-        'text' => 'Productos',
-        'url'  => 'productos',
-        'icon' => 'fas fa-boxes',
-    ],
-
-    // ======= MÓDULO MOVIMIENTOS =======
-    ['header' => 'MOVIMIENTOS'],
-
-    [
-        'text' => 'Compras',
-        'url'  => 'compras',
-        'icon' => 'fas fa-shopping-bag',
-    ],
-
-    [
-        'text' => 'Ventas',
-        'url'  => 'ventas',
-        'icon' => 'fas fa-shopping-cart',
-    ],
-
-    // ======= MÓDULO REPORTES =======
-    ['header' => 'REPORTES'],
-
-    [
-        'text' => 'Reportes',
-        'url'  => 'reportes',
-        'icon' => 'fas fa-chart-line',
-    ],
+        // ==========================================================
+        // ⚙️ MÓDULO ADMINISTRACIÓN Y REPORTES (Submenú)
+        // ==========================================================
+        [
+            'text' => 'Administración', // Elemento Padre
+            'icon' => 'fas fa-user-cog',
+            // El padre se muestra si es admin O si tiene acceso a los reportes
+            'can'  => ['admin', 'cajero', 'compras'], 
+            'submenu' => [
+                // USUARIOS (Solo Admin)
+                [
+                    'text' => 'Usuarios y Roles',
+                    'url'  => 'usuarios',
+                    'icon' => 'fas fa-fw fa-user',
+                    'can' => 'admin',
+                ],
+                // REPORTES (Visible para todos los roles operativos)
+                // CORRECCIÓN 2: Se restaura el permiso para todos los roles operativos
+                [
+                    'text' => 'Reportes',
+                    'url'  => 'reportes',
+                    'icon' => 'fas fa-chart-line',
+                    'can' => ['admin', 'cajero', 'compras'], 
+                ],
+            ],
+        ],
     ],
 
     /*

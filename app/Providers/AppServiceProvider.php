@@ -2,23 +2,26 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
-class AppServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
+        // Cambiamos 'administrador' a 'admin' para coincidir con el menú
+        Gate::define('admin', function ($user) {
+            return $user->id_rol == 1;
+        });
+
+        // Corregimos la sintaxis de la función flecha
+        Gate::define('cajero', function ($user) {
+            return $user->id_rol == 2;
+        });
+
+        // Corregimos la sintaxis de la función flecha
+        Gate::define('compras', function ($user) {
+            return $user->id_rol == 3;
+        });
     }
 }
