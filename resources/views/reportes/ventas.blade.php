@@ -22,7 +22,7 @@
 
         <div class="col-md-4">
             <label>&nbsp;</label>
-            <button class="btn btn-primary btn-block">Generar</button>
+            <button class="btn btn-info btn-block">Generar</button>
         </div>
     </div>
 </form>
