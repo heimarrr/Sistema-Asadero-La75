@@ -24,19 +24,16 @@ class Producto extends Model
         'id_categoria',
     ];
 
-    // Relación con Categoría
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
 
-    // Relación con DetalleCompras
     public function detalleCompras()
     {
         return $this->hasMany(DetalleCompra::class, 'id_producto', 'id_producto');
     }
 
-    // Relación con DetalleVentas
     public function detalleVentas()
     {
         return $this->hasMany(DetalleVenta::class, 'id_producto', 'id_producto');

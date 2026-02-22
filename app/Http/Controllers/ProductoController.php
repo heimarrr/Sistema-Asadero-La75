@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    // Listar productos
+
     public function index()
     {
         $productos = Producto::with('categoria')->get();
@@ -16,14 +16,12 @@ class ProductoController extends Controller
         return view('productos.index', compact('productos', 'categorias'));
     }
 
-    // Mostrar formulario para crear
     public function create()
     {
         $categorias = Categoria::all();
         return view('productos.create', compact('categorias'));
     }
 
-    // Guardar nuevo producto
     public function store(Request $request)
     {
         $request->validate([
@@ -43,7 +41,6 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'Producto agregado correctamente.');
     }
 
-    // Mostrar formulario de edición
     public function edit($id)
     {
         $producto = Producto::findOrFail($id);
@@ -51,7 +48,6 @@ class ProductoController extends Controller
         return view('productos.edit', compact('producto', 'categorias'));
     }
 
-    // Actualizar producto
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -67,13 +63,11 @@ class ProductoController extends Controller
         ]);
 
         $producto = Producto::findOrFail($id);
-        
         $producto->update($request->all()); 
 
         return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente.');
     }
 
-    // Eliminar producto
     public function destroy($id)
     {
         $producto = Producto::findOrFail($id);
@@ -82,7 +76,6 @@ class ProductoController extends Controller
         return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente.');
     }
 
-    // Cambiar estado (activar/desactivar)
     public function toggleEstado($id)
     {
         $producto = Producto::findOrFail($id);

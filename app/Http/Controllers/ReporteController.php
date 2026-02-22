@@ -8,7 +8,8 @@ use App\Models\DetalleVenta;
 use App\Models\Compra;
 use App\Models\DetalleCompra;
 use App\Models\Producto;
-use DB;
+use Illuminate\Support\Facades\DB;
+
 
 class ReporteController extends Controller
 {
@@ -17,9 +18,6 @@ class ReporteController extends Controller
         return view('reportes.index');
     }
 
-    // ============================
-    //     REPORTE DE VENTAS
-    // ============================
     public function ventas(Request $request)
     {
         $inicio = $request->inicio;
@@ -33,7 +31,6 @@ class ReporteController extends Controller
 
         $total = $ventas->sum('total');
 
-        // Producto más vendido
         $productoMasVendido = DetalleVenta::select(
                 'id_producto',
                 DB::raw('SUM(cantidad) as cantidad_vendida')
@@ -52,9 +49,6 @@ class ReporteController extends Controller
         ));
     }
 
-    // ============================
-    //     REPORTE DE COMPRAS
-    // ============================
     public function compras(Request $request)
     {
         $inicio = $request->inicio;
@@ -68,7 +62,6 @@ class ReporteController extends Controller
 
         $total = $compras->sum('total');
 
-        // Producto más comprado
         $productoMasComprado = DetalleCompra::select(
                 'id_producto',
                 DB::raw('SUM(cantidad) as total_comprado')
@@ -87,9 +80,6 @@ class ReporteController extends Controller
         ));
     }
 
-    // ============================
-    //     REPORTE DE INVENTARIO
-    // ============================
     public function inventario()
     {
         $productos = Producto::all();

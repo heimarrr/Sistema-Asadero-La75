@@ -8,15 +8,13 @@ use App\Models\Rol;
 
 class UsuarioController extends Controller
 {
-    // Listar usuarios
     public function index()
     {
         $usuarios = Usuario::with('rol')->get();
-        $roles = Rol::all(); // Para los modales
+        $roles = Rol::all(); 
         return view('usuarios.index', compact('usuarios', 'roles'));
     }
 
-    // Crear usuario
     public function store(Request $request)
     {
         $request->validate([
@@ -40,7 +38,6 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
     }
 
-    // Actualizar usuario
     public function update(Request $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
@@ -68,7 +65,6 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente');
     }
 
-    // Eliminar usuario
     public function destroy($id)
     {
         
@@ -79,16 +75,13 @@ class UsuarioController extends Controller
         return redirect()->back()->with('success', 'Usuario eliminado correctamente');
     } 
     catch (\Illuminate\Database\QueryException $e) {
-        // Error de llave foránea
         return redirect()->back()->with('error', 'No se puede eliminar este usuario porque tiene datos asociados.');
     }
     catch (\Exception $e) {
-        // Otros errores
         return redirect()->back()->with('error', 'Ocurrió un error al intentar eliminar este usuario.');
     }
     }
 
-    // Cambiar estado (activar/desactivar)
     public function toggleEstado($id)
     {
         $usuario = Usuario::findOrFail($id);

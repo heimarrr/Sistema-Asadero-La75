@@ -300,17 +300,11 @@ return [
 
     'menu' => [
     
-        // ==========================================================
-        // NAVBAR ITEMS
-        // ==========================================================
         [
             'type' => 'user-menu',  
             'topnav_right' => true, 
         ],
         
-        // ==========================================================
-        // SIDEBAR ITEMS
-        // ==========================================================
 
         ['header' => 'MENÚ PRINCIPAL'],
 
@@ -320,25 +314,17 @@ return [
             'icon' => 'fas fa-home',
         ],
         
-        // ---
-        
-        // ==========================================================
-        // 📦 MÓDULO INVENTARIO (Submenú)
-        // ==========================================================
         [
-            'text' => 'Inventario', // Elemento Padre
+            'text' => 'Inventario', 
             'icon' => 'fas fa-boxes',
-            // Padre visible para todos los que necesitan ver Productos
             'can'  => ['admin', 'cajero', 'compras'], 
             'submenu' => [
-                // CORRECCIÓN 1: Deben tener el 'can' explícito para no heredar el del padre
                 [
                     'text' => 'Categorías',
                     'url'  => 'categorias',
                     'icon' => 'fas fa-tags',
                     'can'  => 'admin', 
                 ],
-                // CORRECCIÓN 1: Deben tener el 'can' explícito
                 [
                     'text' => 'Proveedores',
                     'url'  => 'proveedores',
@@ -349,59 +335,44 @@ return [
                     'text' => 'Productos',
                     'url'  => 'productos',
                     'icon' => 'fas fa-box',
-                    'can'  => ['admin', 'cajero', 'compras'], // Visible para todos
+                    'can'  => ['admin', 'cajero', 'compras'], 
                 ],
             ],
         ],
         
-        // ---
-
-        // ==========================================================
-        // 🔄 MÓDULO MOVIMIENTOS (Submenú con roles mixtos)
-        // ==========================================================
         [
-            'text' => 'Movimientos', // Elemento Padre
+            'text' => 'Movimientos', 
             'icon' => 'fas fa-exchange-alt',
-            // Visible si es admin, cajero o compras
+
             'can'  => ['admin', 'cajero', 'compras'], 
             'submenu' => [
-                // COMPRAS
                 [
                     'text' => 'Compras',
                     'url'  => 'compras',
                     'icon' => 'fas fa-shopping-bag',
-                    'can' => ['compras', 'admin'], // visible solo para Compras/Admin
+                    'can' => ['compras', 'admin'],
                 ],
-                // VENTAS
                 [
                     'text' => 'Ventas',
                     'url'  => 'ventas',
                     'icon' => 'fas fa-shopping-cart',
-                    'can' => ['admin', 'cajero'], // visible solo para Cajero/Admin
+                    'can' => ['admin', 'cajero'], 
                 ],
             ],
         ],
         
-        // ---
-
-        // ==========================================================
-        // ⚙️ MÓDULO ADMINISTRACIÓN Y REPORTES (Submenú)
-        // ==========================================================
         [
-            'text' => 'Administración', // Elemento Padre
+            'text' => 'Administración', 
             'icon' => 'fas fa-user-cog',
-            // El padre se muestra si es admin O si tiene acceso a los reportes
             'can'  => ['admin', 'cajero', 'compras'], 
             'submenu' => [
-                // USUARIOS (Solo Admin)
+
                 [
                     'text' => 'Usuarios y Roles',
                     'url'  => 'usuarios',
                     'icon' => 'fas fa-fw fa-user',
                     'can' => 'admin',
                 ],
-                // REPORTES (Visible para todos los roles operativos)
-                // CORRECCIÓN 2: Se restaura el permiso para todos los roles operativos
                 [
                     'text' => 'Reportes',
                     'url'  => 'reportes',

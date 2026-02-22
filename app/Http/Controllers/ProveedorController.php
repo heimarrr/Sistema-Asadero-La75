@@ -7,14 +7,12 @@ use Illuminate\Http\Request;
 
 class ProveedorController extends Controller
 {
-    // Listar proveedores
     public function index()
     {
         $proveedores = Proveedor::all();
         return view('proveedores.index', compact('proveedores'));
     }
 
-    // Guardar nuevo proveedor
     public function store(Request $request)
     {
         $request->validate([
@@ -29,7 +27,6 @@ class ProveedorController extends Controller
         return redirect()->back()->with('success', 'Proveedor registrado con éxito.');
     }
 
-    // Actualizar proveedor
     public function update(Request $request, $id)
     {
         $proveedor = Proveedor::findOrFail($id);
@@ -46,7 +43,6 @@ class ProveedorController extends Controller
         return redirect()->back()->with('success', 'Proveedor actualizado correctamente.');
     }
 
-    // Eliminar proveedor
     public function destroy($id)
     {
         try {

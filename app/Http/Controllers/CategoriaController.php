@@ -47,7 +47,6 @@ class CategoriaController extends Controller
         }
     }
 
-      // Cambiar estado (activar/desactivar)
     public function toggleEstado($id)
     {
         $categoria = Categoria::findOrFail($id);

@@ -23,13 +23,11 @@ class DetalleCompra extends Model
         'status',
     ];
 
-    // Relación: Un detalle pertenece a una compra (Inverse of One-to-Many)
     public function compra()
     {
         return $this->belongsTo(Compra::class, 'id_compra', 'id_compra');
     }
-
-    // Relación con Producto
+    
     public function producto()
     {
         return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');

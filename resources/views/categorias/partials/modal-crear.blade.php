@@ -13,8 +13,6 @@
                 </div>
 
                 <div class="modal-body">
-
-                    {{-- Nombre --}}
                     <div class="mb-3">
                         <label for="nombre_categoria" class="form-label">Nombre *</label>
                         <input 
@@ -29,8 +27,6 @@
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-
-                    {{-- Descripción --}}
                     <div class="mb-3">
                         <label for="descripcion_categoria" class="form-label">Descripción</label>
                         <textarea 

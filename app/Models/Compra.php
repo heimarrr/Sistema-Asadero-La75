@@ -11,13 +11,8 @@ class Compra extends Model
 {
     use HasFactory;
 
-    // Nombre de la tabla
     protected $table = 'compras'; 
-
-    // Clave primaria
     protected $primaryKey = 'id_compra'; 
-
-    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'id_proveedor',
         'id_usuario',
@@ -31,13 +26,11 @@ class Compra extends Model
         return $this->hasMany(DetalleCompra::class, 'id_compra', 'id_compra');
     }
 
-    // Relación con Proveedor
     public function proveedor()
     {
         return $this->belongsTo(Proveedor::class, 'id_proveedor', 'id_proveedor');
     }
     
-    // Relación con Usuario
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario'); 

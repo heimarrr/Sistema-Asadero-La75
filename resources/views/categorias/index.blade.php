@@ -9,7 +9,6 @@
 @section('content')
 <div class="container-fluid mt-3">
 
-    {{-- Mensajes de éxito/alerta --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <i class="fas fa-check-circle me-2"></i>
@@ -18,7 +17,6 @@
         </div>
     @endif
 
-    {{-- Manejo de errores --}}
     @if (session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <i class="fas fa-exclamation-triangle me-2"></i>
@@ -27,13 +25,9 @@
         </div>
     @endif
 
-
-    {{-- Tarjeta principal --}}
     <div class="card shadow-lg">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Listado de Categorías</h3>
-
-            {{-- Botón Crear --}}
             <button class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#modalCrearCategoria">
                 <i class="fas fa-plus me-1"></i> Nueva Categoría
             </button>
@@ -64,14 +58,12 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        {{-- Editar --}}
                                         <button class="btn btn-info btn-sm text-white"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalEditarCategoria{{ $categoria->id_categoria }}">
                                             <i class="fas fa-edit"></i> Editar
                                         </button>
 
-                                        {{-- Cambiar estado --}}
                                         <form action="{{ route('categorias.toggleEstado', $categoria->id_categoria) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="btn btn-warning btn-sm" title="Cambiar Estado">
@@ -79,7 +71,6 @@
                                             </button>
                                         </form>
 
-                                        {{-- Eliminar --}}
                                         <button class="btn btn-danger btn-sm"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalEliminarCategoria{{ $categoria->id_categoria }}">
@@ -102,7 +93,6 @@
     </div>
 </div>
 
-{{-- Modales --}}
 @include('categorias.partials.modal-crear')
 
 @if ($categorias->isNotEmpty())
@@ -117,10 +107,10 @@
 @section('css')
 <style>
     .dataTables_filter input {
-        width: 400px !important; /* Ajusta el ancho */
-        height: 35px;            /* Alto opcional */
-        font-size: 14px;         /* Texto */
-        border-radius: 8px;      /* Bordes */
+        width: 400px !important; 
+        height: 35px;            
+        font-size: 14px;        
+        border-radius: 8px;      
     }
 </style>
 @stop

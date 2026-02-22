@@ -1,17 +1,13 @@
-{{-- 📌 MODAL DE ELIMINACIÓN --}}
 <div class="modal fade" id="modalEliminarCategoria{{ $categoria->id_categoria }}" tabindex="-1" aria-labelledby="modalEliminarCategoriaLabel{{ $categoria->id_categoria }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
-            {{-- Encabezado --}}
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title" id="modalEliminarCategoriaLabel{{ $categoria->id_categoria }}">
                     <i class="fas fa-trash-alt me-2"></i> Confirmar Eliminación
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-
-            {{-- Cuerpo --}}
             <div class="modal-body">
                 <p class="lead">
                     ¿Estás seguro de que deseas eliminar la categoría
@@ -23,8 +19,6 @@
                     Esta acción es <strong>irreversible</strong>.
                 </div>
             </div>
-
-            {{-- Pie --}}
             <div class="modal-footer">
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
