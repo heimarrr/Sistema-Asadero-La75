@@ -61,24 +61,22 @@
                             <tr>
                                 <td>{{ $compra->id_compra }}</td>
                                 <td>{{ \Carbon\Carbon::parse($compra->fecha)->format('d/m/Y') }}</td>
-                                {{-- Asegúrate de que las relaciones proveedor y usuario existan y estén cargadas (Eager Loading) --}}
                                 <td>{{ $compra->proveedor->nombre ?? 'N/A' }}</td>
                                 <td>{{ $compra->usuario->nombre ?? 'N/A' }}</td>
                                 <td>$ {{ number_format($compra->total, 2) }}</td>
                                 <td class="text-center">
-                                    {{-- El status 1 es Válida (verde), cualquier otro (0) es Anulada (rojo/gris) --}}
                                     <span class="badge {{ $compra->status == 1 ? 'bg-success' : 'bg-danger' }}">
                                         {{ $compra->status == 1 ? 'Válida' : 'Anulada' }}
                                     </span>
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group">
-                                        {{-- Ver Detalles (Show) --}}
+                                        {{-- Botón Ver Detalles --}}
                                         <a href="{{ route('compras.show', $compra->id_compra) }}" class="btn btn-info btn-sm text-white" title="Ver Detalles">
                                             <i class="fas fa-eye"></i> Ver
                                         </a>
 
-                                        {{-- Botón Anular (Solo si está Válida) --}}
+                                        {{-- Botón Anular --}}
                                         @if ($compra->status == 1)
                                             <button class="btn btn-danger btn-sm"
                                                 data-toggle="modal"
@@ -109,7 +107,7 @@
     </div>
 </div>
 
-{{-- MODALES DINÁMICOS PARA ANULAR (Solo si hay compras) --}}
+{{-- MODALES DINÁMICOS PARA ANULAR --}}
 @if ($compras->isNotEmpty())
     @foreach ($compras as $compra)
         @if ($compra->status == 1)
@@ -124,7 +122,7 @@
                         </div>
                         <form action="{{ route('compras.destroy', $compra->id_compra) }}" method="POST">
                             @csrf
-                            @method('DELETE') {{-- O POST si usas una ruta custom como 'compras.anular' --}}
+                            @method('DELETE') 
                             <div class="modal-body">
                                 <p>¿Está seguro que desea **anular** la compra **N° {{ $compra->id_compra }}** al proveedor **{{ $compra->proveedor->nombre ?? 'N/A' }}**?</p>
                                 <p class="text-danger">Esta acción es irreversible y afectará el stock de los productos.</p>
@@ -146,10 +144,10 @@
 @section('css')
 <style>
     .dataTables_filter input {
-        width: 400px !important; /* Ajusta el ancho */
-        height: 35px;            /* Alto opcional */
-        font-size: 14px;         /* Texto */
-        border-radius: 8px;      /* Bordes */
+        width: 400px !important; 
+        height: 35px;            
+        font-size: 14px;       
+        border-radius: 8px;    
     }
 </style>
 @stop
@@ -167,7 +165,7 @@
                 searching: true,
                 ordering: true,
                 info: true,
-                order: [[0, 'desc']], // Ordenar por ID (fecha) descendente por defecto
+                order: [[0, 'desc']], 
                 language: {
                     "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
                 },

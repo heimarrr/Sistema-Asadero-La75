@@ -13,6 +13,7 @@
         <div class="card-header">
             <h3 class="card-title">Información General</h3>
         </div>
+        {{-- Información general de la compra --}}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">

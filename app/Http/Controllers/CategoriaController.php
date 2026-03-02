@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
+
     public function index()
     {
         $categorias = Categoria::all();
@@ -46,7 +47,7 @@ class CategoriaController extends Controller
             return redirect()->back()->with('error', 'No se puede eliminar esta categoría porque tiene productos asociados.');
         }
     }
-
+    // Método para activar/desactivar categoría
     public function toggleEstado($id)
     {
         $categoria = Categoria::findOrFail($id);

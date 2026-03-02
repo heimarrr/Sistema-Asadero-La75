@@ -1,4 +1,3 @@
-{{-- Este modal requiere la variable $producto --}}
 <div class="modal fade" id="modalEliminar{{ $producto->id_producto }}" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

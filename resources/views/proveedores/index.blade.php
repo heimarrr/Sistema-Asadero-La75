@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    {{-- Errores --}}
+    {{-- Mensaje de error --}}
     @if (session('error'))
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <i class="fas fa-exclamation-triangle me-2"></i>
@@ -30,7 +30,6 @@
 
     <div class="card shadow-lg">
 
-        {{-- ENCABEZADO --}}
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title mb-0">Proveedores Registrados</h3>
 
@@ -41,7 +40,6 @@
             </button>
         </div>
 
-        {{-- TABLA --}}
         <div class="card-body">
             <div class="table-responsive">
                 <table id="proveedores-table" class="table table-bordered table-striped table-hover align-middle">
@@ -66,7 +64,6 @@
                                 <td>{{ $proveedor->direccion }}</td>
                                 <td>{{ $proveedor->correo }}</td>
 
-                                {{-- Estado --}}
                                 <td class="text-center">
                                     <span class="badge {{ $proveedor->status ? 'bg-success' : 'bg-danger' }}">
                                         {{ $proveedor->status ? 'Activo' : 'Inactivo' }}

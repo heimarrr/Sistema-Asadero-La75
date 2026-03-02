@@ -32,7 +32,7 @@ class VentaController extends Controller
         $request->validate([
             'productos' => 'required|array|min:1',
             'productos.*.id_producto' => 'required|integer|exists:productos,id_producto',
-            'productos.*.cantidad' => 'required|integer|min:1', 
+            'productos.*.cantidad' => 'required|integer|min:1',
         ]);
 
         DB::beginTransaction();
@@ -42,12 +42,12 @@ class VentaController extends Controller
             $productosVenta = [];
 
             foreach ($request->productos as $idProducto => $item) {
-                $cantidad = (int) $item['cantidad']; 
+                $cantidad = (int) $item['cantidad'];
                 
                 $producto = Producto::findOrFail($idProducto);
 
                 if ($cantidad > $producto->stock_actual) {
-                    throw new \Exception("Stock insuficiente para el producto '{$producto->nombre}'. Solicitado: {$cantidad}, Stock actual: {$producto->stock_actual}");
+                    throw new \Exception("Stock insuficiente para '{$producto->nombre}'.");
                 }
 
                 $precioUnitario = $producto->precio_venta;
@@ -78,8 +78,18 @@ class VentaController extends Controller
                 ]);
 
                 $item['producto']->decrement('stock_actual', $item['cantidad']);
-            }
 
+                if ($item['producto']->nombre === 'Pollo asado') {
+
+                    $polloCrudo = Producto::where('nombre', 'Pollo crudo')->first();
+
+                    if ($polloCrudo) {
+                        $polloCrudo->decrement('stock_actual', $item['cantidad']);
+                    }
+                }
+
+            }
+            
             DB::commit();
             return redirect()->route('ventas.index')->with('success', 'Venta registrada exitosamente.');
 
@@ -88,14 +98,8 @@ class VentaController extends Controller
             return back()->with('error', 'Error al registrar la venta: ' . $e->getMessage())->withInput();
         }
     }
-    
-    
-    /**
-     * Muestra los detalles de una venta específica.
-     *
-     * @param \App\Models\Venta $venta El modelo Venta inyectado por Route Model Binding.
-     * @return \Illuminate\View\View
-     */
+
+
     public function show(Venta $venta)
     {
         $venta->load(['usuario', 'detalleVentas.producto']);
@@ -113,22 +117,29 @@ class VentaController extends Controller
 
             foreach ($venta->detalleVentas as $detalle) {
                 $producto = Producto::find($detalle->id_producto);
-                
+
                 if ($producto) {
                     $producto->increment('stock_actual', $detalle->cantidad);
-                }
+                    if ($producto->nombre === 'Pollo asado') {
 
-                $detalle->update(['status' => 0]); 
+                        $polloCrudo = Producto::where('nombre', 'Pollo crudo')->first();
+
+                        if ($polloCrudo) {
+                            $polloCrudo->increment('stock_actual', $detalle->cantidad);
+                        }
+                    }
+                }
+                $detalle->update(['status' => 0]);
             }
 
             $venta->update(['status' => 0]);
 
             DB::commit();
-            return redirect()->route('ventas.index')->with('success', 'La venta fue anulada exitosamente y el stock revertido.');
+            return redirect()->route('ventas.index')->with('success', 'Venta anulada y stock revertido correctamente.');
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Error al anular la venta: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al anular: ' . $e->getMessage());
         }
     }
 }

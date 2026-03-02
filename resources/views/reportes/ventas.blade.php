@@ -46,7 +46,6 @@
         </p>
         @endif
 
-        {{-- TABLA --}}
         <table class="table table-bordered">
             <thead>
                 <tr>

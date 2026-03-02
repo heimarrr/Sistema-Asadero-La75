@@ -1,4 +1,3 @@
-{{-- Este modal requiere la variable $categorias --}}
 <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalAgregarLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

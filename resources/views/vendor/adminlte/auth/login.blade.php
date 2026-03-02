@@ -26,7 +26,6 @@
     <form action="{{ $loginUrl }}" method="post">
         @csrf
 
-        {{-- Campo usuario o correo --}}
         <div class="input-group mb-3">
             <input type="text" name="login" class="form-control @error('login') is-invalid @enderror"
                 value="{{ old('login') }}" placeholder="Usuario o correo" required autofocus>
@@ -44,7 +43,6 @@
             @enderror
         </div>
 
-        {{-- Campo contraseña --}}
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                 placeholder="Contraseña" required>

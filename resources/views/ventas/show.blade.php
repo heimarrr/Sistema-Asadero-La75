@@ -50,13 +50,11 @@
                 </div>
 
                 <div class="col-md-4">
-                    {{-- Usamos el operador null-safe '?' si la relación 'usuario' pudiera ser nula --}}
                     <p><strong>Usuario:</strong> {{ $venta->usuario->nombre ?? 'N/A' }}</p> 
                 </div>
             </div>
 
             <div class="row mb-3">
-                {{-- ASUMCIÓN: Si el cliente está relacionado (cliente->nombre) o es un campo de la venta --}}
                 <div class="col-md-4">
                     <p><strong>Cliente:</strong> 
                         {{ $venta->cliente->nombre ?? ($venta->cliente ?? 'Público general') }} 
@@ -98,12 +96,9 @@
                         @foreach ($venta->detalleVentas as $detalle)
                             <tr>
                                 <td>{{ $detalle->id_detalle_venta }}</td>
-                                {{-- Usamos el operador null-safe '?' si la relación 'producto' pudiera ser nula --}}
                                 <td>{{ $detalle->producto->nombre ?? 'Producto Eliminado' }}</td>
                                 <td>{{ $detalle->cantidad }}</td>
-                                {{-- Se corrige para usar precio_unitario del detalle --}}
                                 <td>$ {{ number_format($detalle->precio_unitario, 2, ',', '.') }}</td>
-                                {{-- Se corrige la fórmula del subtotal al vuelo --}}
                                 <td>$ {{ number_format($detalle->cantidad * $detalle->precio_unitario, 2, ',', '.') }}</td>
                             </tr>
                         @endforeach
@@ -149,7 +144,6 @@
 
             <div class="modal-header bg-danger text-white">
                 <h5 class="modal-title" id="modalAnularVentaLabel">Confirmar Anulación</h5>
-                {{-- El atributo data-dismiss es correcto para AdminLTE/Bootstrap 4 --}}
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span>&times;</span>
                 </button>

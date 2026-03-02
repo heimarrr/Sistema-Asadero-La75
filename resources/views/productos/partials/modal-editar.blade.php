@@ -1,4 +1,3 @@
-{{-- Este modal requiere las variables $producto y $categorias --}}
 <div class="modal fade" id="modalEditar{{ $producto->id_producto }}" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

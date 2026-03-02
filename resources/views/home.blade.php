@@ -24,10 +24,8 @@
     }
 </style>
 
-{{-- TARJETAS SUPERIORES --}}
 <div class="row">
-
-    {{-- VENTAS DEL DÍA --}}
+    {{-- VENTAS DE HOY --}}
     <div class="col-md-3 mb-4">
         <div class="card dash-card border-left-primary">
             <div class="card-body text-center">
@@ -81,10 +79,9 @@
 
 </div>
 
-{{-- NUEVAS SECCIONES --}}
 <div class="row">
 
-    {{-- 🔄 Comparativa compras vs ventas --}}
+    {{-- Comparativa compras vs ventas --}}
     <div class="col-md-4">
         <div class="card shadow">
             <div class="card-header bg-primary text-white">
@@ -108,7 +105,7 @@
         </div>
     </div>
 
-    {{-- 👤 Ventas por usuario --}}
+    {{-- Ventas por usuario --}}
     <div class="col-md-4">
         <div class="card shadow">
             <div class="card-header bg-dark text-white">
@@ -125,7 +122,7 @@
         </div>
     </div>
 
-    {{-- 🐔 Top productos vendidos/comprados --}}
+    {{-- Top productos vendidos/comprados --}}
     <div class="col-md-4">
         <div class="card shadow">
             <div class="card-header bg-warning">

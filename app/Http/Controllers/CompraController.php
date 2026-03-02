@@ -11,9 +11,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log; 
+
 class CompraController extends Controller
 {
-    
+    //middleware para proteger rutas
     public function __construct()
     {
         $this->middleware('auth'); 
@@ -50,10 +51,9 @@ class CompraController extends Controller
         try {
             DB::beginTransaction();
             
-
             $compra = Compra::create([
                 'id_proveedor' => $request->id_proveedor,
-                'id_usuario' => Auth::id(), 
+                'id_usuario' => Auth::id(),
                 'fecha' => $request->fecha,
                 'total' => $request->total_compra,
                 'status' => 1, 
@@ -71,20 +71,30 @@ class CompraController extends Controller
                 ]);
 
                 $producto = Producto::find($item['id_producto']);
+                
                 if ($producto) {
                     $producto->stock_actual += $item['cantidad']; 
                     $producto->save();
+                    if ($producto->nombre === 'Pollo crudo') {
+                        $polloAsado = Producto::where('nombre', 'Pollo asado')->first();
+                        if ($polloAsado) {
+                            $polloAsado->stock_actual += $item['cantidad']; 
+                            $polloAsado->save();
+                        }
+                    }
                 }
             }
 
             DB::commit();
 
-            return redirect()->route('compras.index')->with('success', 'Compra N° ' . $compra->id_compra . ' registrada con éxito.');
+            return redirect()->route('compras.index')
+                ->with('success', 'Compra N° ' . $compra->id_compra . ' registrada con éxito.');
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error al registrar la compra: ' . $e->getMessage());
-            return redirect()->back()->withInput()->with('error', 'Error al registrar la compra: ' . $e->getMessage());
+            return redirect()->back()->withInput()
+                ->with('error', 'Error al registrar la compra: ' . $e->getMessage());
         }
     }
 
@@ -100,14 +110,17 @@ class CompraController extends Controller
         $compra = Compra::with('detalles')->findOrFail($id);
         
         if ($compra->status != 1) {
-            return redirect()->route('compras.index')->with('error', 'La compra N° ' . $compra->id_compra . ' ya está anulada.');
+            return redirect()->route('compras.index')
+                ->with('error', 'La compra N° ' . $compra->id_compra . ' ya está anulada.');
         }
 
         try {
             DB::beginTransaction();
             
             foreach ($compra->detalles as $detalle) {
+
                 $producto = Producto::find($detalle->id_producto);
+
                 if ($producto) {
                     $producto->stock_actual = $producto->stock_actual - $detalle->cantidad; 
                     if ($producto->stock_actual < 0) {
@@ -122,12 +135,14 @@ class CompraController extends Controller
 
             DB::commit();
 
-            return redirect()->route('compras.index')->with('success', 'La compra N° ' . $compra->id_compra . ' ha sido anulada y el stock revertido.');
+            return redirect()->route('compras.index')
+                ->with('success', 'Compra N° ' . $compra->id_compra . ' anulada correctamente.');
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error al anular la compra: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Error al anular la compra. Detalles: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Error al anular la compra. Detalles: ' . $e->getMessage());
         }
     }
 }

@@ -31,7 +31,6 @@
 <div class="card">
     <div class="card-body">
 
-        {{-- TOTAL EN COP --}}
         <h4>Total gastado:
             <strong>${{ number_format($total, 0, ',', '.') }} COP</strong>
         </h4>
@@ -46,7 +45,6 @@
         </p>
         @endif
 
-        {{-- TABLA --}}
         <table class="table table-bordered">
             <thead>
                 <tr>

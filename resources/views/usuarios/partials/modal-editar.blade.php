@@ -13,9 +13,7 @@
                 </div>
                 
                 <div class="modal-body">
-                    
-                    {{-- 1. Mostrar Errores de Validación (Si el formulario falla y regresa) --}}
-                    {{-- Esto revisa si hay errores PARA ESTE ID específico --}}
+                    {{-- 1. Mostrar errores específicos del modal --}}
                     @if ($errors->any() && old('_id_usuario_') == $usuario->id_usuario)
                         <div class="alert alert-danger">
                             <ul>
@@ -38,7 +36,6 @@
 
                     <div class="mb-3">
                         <label for="nombreEdit{{ $usuario->id_usuario }}" class="form-label">Nombre</label>
-                        {{-- 3. Usar old() o el valor original --}}
                         <input type="text" name="nombre" id="nombreEdit{{ $usuario->id_usuario }}" 
                             value="{{ old('nombre', $usuario->nombre) }}" 
                             class="form-control @error('nombre') is-invalid @enderror" required>
@@ -69,7 +66,6 @@
                     
                     <div class="mb-3">
                         <label for="contrasenaEdit{{ $usuario->id_usuario }}" class="form-label">Nueva Contraseña (opcional)</label>
-                        {{-- NO se usa old() en las contraseñas --}}
                         <input type="password" name="contrasena" id="contrasenaEdit{{ $usuario->id_usuario }}" 
                             class="form-control @error('contrasena') is-invalid @enderror">
                         @error('contrasena')

@@ -8,7 +8,6 @@
 
 @section('content')
     <div class="container-fluid">
-        {{-- Mensajes de Notificación --}}
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -16,7 +15,6 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        {{-- Contenedor principal con AdminLTE card --}}
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Datos Generales de la Venta</h3>
@@ -27,7 +25,6 @@
                 <div class="card-body">
                     
                     <div class="row">
-                        {{-- Fecha de Venta --}}
                         <div class="col-md-6 form-group">
                             <label for="fecha">Fecha de Venta</label>
                             <input type="date" name="fecha" id="fecha" class="form-control @error('fecha') is-invalid @enderror" value="{{ old('fecha', date('Y-m-d')) }}" required>
@@ -36,15 +33,12 @@
                     </div>
 
                     <hr>
-
-                    {{-- ÚNICO SELECTOR DE PRODUCTOS VISIBLE --}}
                     <h4 class="mt-4">Seleccionar Producto</h4>
                     <div class="row mb-3">
                         <div class="col-md-12">
-                            {{-- Solo la etiqueta Producto que vimos en la imagen --}}
+    
                             <label for="selectProducto">Producto</label>
                             
-                            {{-- EL SELECT QUE INICIALIZA SELECT2 --}}
                             <select id="selectProducto" class="form-control select2" style="width: 100%;">
                                 <option value="">Seleccione un producto...</option>
                                 @foreach($productos as $p)
@@ -56,7 +50,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            {{-- NO hay otro <p> o texto estático debajo de este select --}}
+
                         </div>
                     </div>
 
@@ -109,10 +103,9 @@
     const totalDisplay = document.querySelector('#total_display');
     const totalHidden = document.querySelector('#total');
 
-    // Estado local para evitar duplicados
-    let productosAgregados = {}; // {id_producto: indice_fila}
+ 
+    let productosAgregados = {}; 
 
-    // Inicializa Select2
     $(document).ready(function() {
         $('#selectProducto').select2({
             theme: 'bootstrap4',
@@ -151,7 +144,6 @@
         totalHidden.value = total.toFixed(2);
     }
 
-    // *** EVENTO PRINCIPAL: AGREGAR PRODUCTO ***
     btnAgregarProducto.addEventListener('click', function() {
         const id = selectProducto.value;
         if (!id) {
@@ -164,7 +156,7 @@
         const nombre = option.getAttribute('data-nombre');
         const stock = parseInt(option.getAttribute('data-stock'));
 
-        // 1. Manejo de Stock y Duplicados
+        // Manejo de Stock y Duplicados
         if (stock <= 0) {
             alert('Error: Este producto no tiene stock disponible.');
             return;
@@ -189,7 +181,7 @@
             return;
         }
 
-        // 2. Agregar nueva fila
+        //Agregar nueva fila
         
         const productIndex = id; 
         productosAgregados[id] = productIndex; 
@@ -221,7 +213,7 @@
         `;
         tbody.appendChild(row);
 
-        // 3. Adjuntar Eventos
+        //Adjuntar Eventos
         const cantidadInput = row.querySelector('.cantidad-item');
         const precioInput = row.querySelector('.precio-item');
         const deleteButton = row.querySelector('.eliminar-row');
@@ -252,7 +244,7 @@
         actualizarTotal();
     });
 
-    // 4. Prevenir envío si la tabla está vacía
+    //Prevenir envío si la tabla está vacía
     document.getElementById('formVenta').addEventListener('submit', function(e) {
         if (Object.keys(productosAgregados).length === 0) {
             e.preventDefault();

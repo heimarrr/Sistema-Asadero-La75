@@ -18,22 +18,23 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
+// Rutas protegidas por autenticación
 Route::middleware(['auth'])->group(function () {
 
+    // Página de inicio después de login
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::middleware(['rol:1'])->group(function () {
         Route::resource('usuarios', UsuarioController::class);
         Route::post('usuarios/{id}/toggle-estado', [UsuarioController::class, 'toggleEstado'])
             ->name('usuarios.toggleEstado');
     });
-
+    // Rutas para roles 1, 2 y 3 (Administrador, Cajero, Encargado)
     Route::middleware(['rol:1,2,3'])->group(function () {
         Route::resource('productos', ProductoController::class)->only(['index', 'show']);
         Route::resource('categorias', CategoriaController::class)->only(['index', 'show']);
         Route::resource('proveedores', ProveedorController::class)->only(['index', 'show']);
     });
-    
+    // Rutas para roles específicos
     Route::middleware(['rol:1'])->group(function () {
         Route::resource('categorias', CategoriaController::class)->except(['index', 'show']);
         Route::post('categorias/{id}/toggle-estado', [CategoriaController::class, 'toggleEstado'])
@@ -46,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('productos.toggleEstado');
     });
 
-
+    // Rutas para roles 1 y 3 (Administrador y compras)
     Route::middleware(['rol:1,3'])->group(function () {
 
         Route::resource('compras', CompraController::class);
@@ -57,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('compras.toggleEstado');
     });
 
+    // Rutas para roles 1 y 2 (Administrador y Cajero)
     Route::middleware(['rol:1,2'])->group(function () {
 
         Route::resource('ventas', VentaController::class);
@@ -66,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('ventas/{id}/toggle-estado', [VentaController::class, 'toggleEstado'])
             ->name('ventas.toggleEstado');
     });
-
+    // Rutas para roles 1, 2 y 3 (Administrador, Cajero, Encargado) - Reportes
     Route::middleware(['rol:1,2,3'])->group(function () { 
 
         Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
