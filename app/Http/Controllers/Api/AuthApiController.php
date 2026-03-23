@@ -1,43 +1,40 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
-use Illuminate\Validation\ValidationException;
 
-class LoginController extends Controller
+class AuthApiController extends Controller
 {
-    /**
-     * Maneja el inicio de sesión para la API.
-     */
+    /// LOGIN
     public function login(Request $request)
     {
         $request->validate([
             'login'    => 'required|string',
-            'password' => 'required|string', // Bajé la validación de min:8 por si ya tienes usuarios con claves cortas
+            'password' => 'required|string',
         ]);
 
-        // Determinar si el usuario ingresó correo o nombre de usuario
+        // Detectar si es correo o usuario
         $campo = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'correo' : 'usuario';
 
-        // Buscar al usuario activo
+        // Buscar usuario activo
         $usuario = Usuario::where($campo, $request->login)
                           ->where('estado', 1)
                           ->first();
 
-        // Verificar existencia y contraseña
+        // Validar credenciales
         if (!$usuario || !Hash::check($request->password, $usuario->contrasena)) {
             return response()->json([
                 'message' => 'Credenciales incorrectas o usuario inactivo.'
             ], 401);
         }
 
-        /** * GENERAR TOKEN CON SANCTUM
-         * Aquí es donde usamos el HasApiTokens que configuramos en el modelo Usuario.
-         */
+        $usuario->tokens()->delete();
+
+        // Crear token
         $token = $usuario->createToken('auth_token')->plainTextToken;
 
         return response()->json([
@@ -47,22 +44,37 @@ class LoginController extends Controller
             'user'         => [
                 'id'     => $usuario->id_usuario,
                 'nombre' => $usuario->nombre,
+                'correo' => $usuario->correo,
                 'rol'    => $usuario->id_rol,
-                'correo' => $usuario->correo
+                'estado' => $usuario->estado,
             ]
         ], 200);
     }
 
-    /**
-     * Cierra la sesión y revoca el token.
-     */
+    // LOGOUT
     public function logout(Request $request)
     {
-        // Revoca el token que se está usando para la petición actual
+        // Elimina el token actual
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Sesión cerrada y token eliminado correctamente'
+            'message' => 'Sesión cerrada correctamente'
         ], 200);
+    }
+
+    /**
+     * 👤 USUARIO AUTENTICADO
+     */
+    public function me(Request $request)
+    {
+        $usuario = $request->user();
+
+        return response()->json([
+            'id'     => $usuario->id_usuario,
+            'nombre' => $usuario->nombre,
+            'correo' => $usuario->correo,
+            'rol'    => $usuario->id_rol,
+            'estado' => $usuario->estado,
+        ]);
     }
 }
