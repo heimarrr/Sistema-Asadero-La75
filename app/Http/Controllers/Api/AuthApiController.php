@@ -9,7 +9,7 @@ use App\Models\Usuario;
 
 class AuthApiController extends Controller
 {
-    /// LOGIN
+    // LOGIN
     public function login(Request $request)
     {
         $request->validate([
@@ -19,8 +19,6 @@ class AuthApiController extends Controller
 
         // Detectar si es correo o usuario
         $campo = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'correo' : 'usuario';
-
-        // Buscar usuario activo
         $usuario = Usuario::where($campo, $request->login)
                           ->where('estado', 1)
                           ->first();
@@ -62,9 +60,9 @@ class AuthApiController extends Controller
         ], 200);
     }
 
-    /**
-     * 👤 USUARIO AUTENTICADO
-     */
+    
+    //USUARIO AUTENTICADO
+    
     public function me(Request $request)
     {
         $usuario = $request->user();

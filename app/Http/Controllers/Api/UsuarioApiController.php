@@ -12,11 +12,10 @@ class UsuarioApiController extends Controller
     public function index()
     {
         $usuarios = Usuario::with('rol')->get();
-        $roles = Rol::all();
 
         return response()->json([
-            'usuarios' => $usuarios,
-            'roles' => $roles
+            'success' => true,
+            'data' => $usuarios
         ]);
     }
 
@@ -26,8 +25,8 @@ class UsuarioApiController extends Controller
             'nombre' => 'required|string|max:255',
             'usuario' => 'required|string|max:255|unique:usuarios,usuario',
             'correo' => 'required|email|unique:usuarios,correo',
-            'contrasena' => 'required|string|min:4',
-            'id_rol' => 'required|integer',
+            'contrasena' => 'required|string|min:6',
+            'id_rol' => 'required|exists:roles,id_rol',
             'estado' => 'required|boolean',
         ]);
 
@@ -41,6 +40,7 @@ class UsuarioApiController extends Controller
         ]);
 
         return response()->json([
+            'success' => true,
             'message' => 'Usuario creado correctamente',
             'data' => $usuario
         ], 201);
@@ -50,7 +50,10 @@ class UsuarioApiController extends Controller
     {
         $usuario = Usuario::with('rol')->findOrFail($id);
 
-        return response()->json($usuario);
+        return response()->json([
+            'success' => true,
+            'data' => $usuario
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -61,23 +64,26 @@ class UsuarioApiController extends Controller
             'nombre' => 'required|string|max:255',
             'usuario' => 'required|string|max:255|unique:usuarios,usuario,' . $usuario->id_usuario . ',id_usuario',
             'correo' => 'required|email|unique:usuarios,correo,' . $usuario->id_usuario . ',id_usuario',
-            'id_rol' => 'required|integer',
+            'id_rol' => 'required|exists:roles,id_rol',
             'estado' => 'required|boolean',
         ]);
 
-        $usuario->nombre = $request->nombre;
-        $usuario->usuario = $request->usuario;
-        $usuario->correo = $request->correo;
-        $usuario->id_rol = $request->id_rol;
-        $usuario->estado = $request->estado;
+        $usuario->update($request->only([
+            'nombre',
+            'usuario',
+            'correo',
+            'id_rol',
+            'estado'
+        ]));
 
         if ($request->filled('contrasena')) {
-            $usuario->contrasena = bcrypt($request->contrasena);
+            $usuario->update([
+                'contrasena' => bcrypt($request->contrasena)
+            ]);
         }
 
-        $usuario->save();
-
         return response()->json([
+            'success' => true,
             'message' => 'Usuario actualizado correctamente',
             'data' => $usuario
         ]);
@@ -90,26 +96,27 @@ class UsuarioApiController extends Controller
             $usuario->delete();
 
             return response()->json([
+                'success' => true,
                 'message' => 'Usuario eliminado correctamente'
             ]);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json([
-                'error' => 'No se puede eliminar este usuario porque tiene datos asociados.'
-            ], 400);
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Ocurrió un error al eliminar el usuario.'
-            ], 500);
+                'success' => false,
+                'error' => 'No se puede eliminar el usuario'
+            ], 400);
         }
     }
 
     public function toggleEstado($id)
     {
         $usuario = Usuario::findOrFail($id);
-        $usuario->estado = $usuario->estado ? 0 : 1;
-        $usuario->save();
+
+        $usuario->update([
+            'estado' => !$usuario->estado
+        ]);
 
         return response()->json([
+            'success' => true,
             'message' => 'Estado actualizado',
             'data' => $usuario
         ]);

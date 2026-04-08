@@ -9,7 +9,7 @@ class Rol extends Model
     protected $table = 'roles';
     protected $primaryKey = 'id_rol';
 
-    protected $fillable = ['nombre', 'descripcion'];
+    protected $fillable = ['nombre', 'descripcion', 'status'];
 
     public function usuarios()
     {
