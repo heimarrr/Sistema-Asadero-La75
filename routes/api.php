@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\ProveedorApiController;
 use App\Http\Controllers\Api\CategoriaApiController;
 use App\Http\Controllers\Api\ProductoApiController;
 use App\Http\Controllers\Api\VentaApiController;
+use App\Http\Controllers\Api\CompraApiController;
+
 
 
 
@@ -40,9 +42,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('productos/{id}/toggle-estado', [ProductoApiController::class, 'toggleEstado'])
         ->name('productos.toggleEstado');
 
-    //rutas de compras y ventas se agregarán aquí posteriormente
+    //rutas de ventas
     Route::apiResource('ventas', VentaApiController::class);
-    Route::post('ventas/{id}/toggle-estado', [VentaApiController::class, 'toggleEstado'])
-        ->name('ventas.toggleEstado');
+
+    //rutas de compras
+    Route::apiResource('compras', CompraApiController::class);
 });
+
 
