@@ -28,7 +28,6 @@ class RolMiddleware
         $user = Auth::user();
 
         // 2. Verificar si el rol del usuario está en la lista de permitidos
-        // Nota: Asegúrate de que $user->id_rol coincida con el tipo de dato enviado (int/string)
         if (!in_array($user->id_rol, $roles)) {
             return response()->json([
                 'error' => 'Acceso denegado.',
