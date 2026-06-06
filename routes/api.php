@@ -16,7 +16,6 @@ use App\Http\Controllers\Api\CompraApiController;
 Route::post('/login', [AuthApiController::class, 'login']);
 
 
-// rutas protegidas
 Route::middleware('auth:sanctum')->group(function () {
 
     /*
@@ -24,79 +23,72 @@ Route::middleware('auth:sanctum')->group(function () {
     | ADMINISTRADOR
     |--------------------------------------------------------------------------
     */
-
     Route::middleware('role:1')->group(function () {
 
-        // usuarios
+        // Usuarios
         Route::apiResource('usuarios', UsuarioApiController::class);
-
         Route::post(
             'usuarios/{id}/toggle-estado',
             [UsuarioApiController::class, 'toggleEstado']
-        )->name('usuarios.toggleEstado');
+        );
 
-
-        // roles
+        // Roles
         Route::apiResource('roles', RolesApiController::class);
-
         Route::post(
             'roles/{id}/toggle-estado',
             [RolesApiController::class, 'toggleEstado']
-        )->name('roles.toggleEstado');
+        );
     });
-
-
 
     /*
     |--------------------------------------------------------------------------
-    | ADMINISTRADOR + COMPRAS
+    | INVENTARIO
+    | ADMIN + COMPRAS
     |--------------------------------------------------------------------------
     */
-
     Route::middleware('role:1,2')->group(function () {
 
-        // proveedores
+        // Proveedores
         Route::apiResource('proveedores', ProveedorApiController::class);
-
         Route::post(
             'proveedores/{id}/toggle-estado',
             [ProveedorApiController::class, 'toggleEstado']
-        )->name('proveedores.toggleEstado');
+        );
 
-
-        // categorias
+        // Categorías
         Route::apiResource('categorias', CategoriaApiController::class);
-
         Route::post(
             'categorias/{id}/toggle-estado',
             [CategoriaApiController::class, 'toggleEstado']
-        )->name('categorias.toggleEstado');
+        );
 
 
-        // productos
-        Route::apiResource('productos', ProductoApiController::class);
-
-        Route::post(
-            'productos/{id}/toggle-estado',
-            [ProductoApiController::class, 'toggleEstado']
-        )->name('productos.toggleEstado');
-
-
-        // compras
+        // Compras
         Route::apiResource('compras', CompraApiController::class);
     });
 
-
-
     /*
     |--------------------------------------------------------------------------
-    | ADMINISTRADOR + CAJERO
+    | VENTAS
+    | ADMIN + CAJERO
     |--------------------------------------------------------------------------
     */
-
     Route::middleware('role:1,3')->group(function () {
 
-        // ventas
         Route::apiResource('ventas', VentaApiController::class);
+    });
+
+    // PRODUCTOS
+
+    Route::middleware('role:1,2,3')->group(function () {
+
+        // Productos
+        Route::apiResource('productos', ProductoApiController::class);
+        Route::post(
+            'productos/{id}/toggle-estado',
+            [ProductoApiController::class, 'toggleEstado']
+        );
+
+
     });
 });
