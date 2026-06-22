@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
@@ -10,13 +11,8 @@ use App\Models\Usuario;
 class AuthApiController extends Controller
 {
     // LOGIN
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'login'    => 'required|string',
-            'password' => 'required|string',
-        ]);
-
         // Detectar si es correo o usuario
         $campo = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'correo' : 'usuario';
         $usuario = Usuario::where($campo, $request->login)
@@ -52,7 +48,6 @@ class AuthApiController extends Controller
     // LOGOUT
     public function logout(Request $request)
     {
-        // Elimina el token actual
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
@@ -60,9 +55,7 @@ class AuthApiController extends Controller
         ], 200);
     }
 
-    
-    //USUARIO AUTENTICADO
-    
+    // USUARIO AUTENTICADO
     public function me(Request $request)
     {
         $usuario = $request->user();

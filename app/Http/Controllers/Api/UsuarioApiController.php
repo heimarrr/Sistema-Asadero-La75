@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\UsuarioRequest;
 use App\Models\Usuario;
 use App\Models\Rol;
 
@@ -19,17 +19,8 @@ class UsuarioApiController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(UsuarioRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'usuario' => 'required|string|max:255|unique:usuarios,usuario',
-            'correo' => 'required|email|unique:usuarios,correo',
-            'contrasena' => 'required|string|min:6',
-            'id_rol' => 'required|exists:roles,id_rol',
-            'estado' => 'required|boolean',
-        ]);
-
         $usuario = Usuario::create([
             'nombre' => $request->nombre,
             'usuario' => $request->usuario,
@@ -56,17 +47,9 @@ class UsuarioApiController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UsuarioRequest $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
-
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'usuario' => 'required|string|max:255|unique:usuarios,usuario,' . $usuario->id_usuario . ',id_usuario',
-            'correo' => 'required|email|unique:usuarios,correo,' . $usuario->id_usuario . ',id_usuario',
-            'id_rol' => 'required|exists:roles,id_rol',
-            'estado' => 'required|boolean',
-        ]);
 
         $usuario->update($request->only([
             'nombre',

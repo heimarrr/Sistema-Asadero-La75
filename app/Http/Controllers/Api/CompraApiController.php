@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompraRequest;
 use App\Models\Compra;
 use App\Models\Producto;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -25,31 +25,15 @@ class CompraApiController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(CompraRequest $request)
     {
-        $request->validate([
-            'id_proveedor' => 'required|exists:proveedores,id_proveedor',
-            'fecha' => 'required|date',
-            'total_compra' => 'required|numeric|min:0.01',
-
-            'productos' => 'required|array|min:1',
-            'productos.*.id_producto' => 'required|exists:productos,id_producto',
-            'productos.*.cantidad' => 'required|numeric|min:0.01',
-            'productos.*.precio_unitario' => 'required|numeric|min:0.01',
-        ]);
-
         try {
 
             DB::beginTransaction();
 
             $compra = Compra::create([
                 'id_proveedor' => $request->id_proveedor,
-
-                // Si no tienes auth aún usa:
-                // 'id_usuario' => 1,
-
                 'id_usuario' => Auth::id(),
-
                 'fecha' => $request->fecha,
                 'total' => $request->total_compra,
                 'status' => 1,

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VentaRequest;
 use App\Models\Venta;
 use App\Models\Producto;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -22,14 +22,8 @@ class VentaApiController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(VentaRequest $request)
     {
-        $request->validate([
-            'productos' => 'required|array|min:1',
-            'productos.*.id_producto' => 'required|integer|exists:productos,id_producto',
-            'productos.*.cantidad' => 'required|integer|min:1',
-        ]);
-
         DB::beginTransaction();
 
         try {

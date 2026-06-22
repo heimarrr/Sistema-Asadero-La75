@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoriaRequest;
 use App\Models\Categoria;
 
 class CategoriaApiController extends Controller
@@ -18,14 +18,8 @@ class CategoriaApiController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(CategoriaRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:100|unique:categorias,nombre',
-            'descripcion' => 'nullable|string|max:255',
-            'status' => 'nullable|boolean'
-        ]);
-
         $categoria = Categoria::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion ?? null,
@@ -49,15 +43,9 @@ class CategoriaApiController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(CategoriaRequest $request, $id)
     {
         $categoria = Categoria::findOrFail($id);
-
-        $request->validate([
-            'nombre' => 'required|string|max:100|unique:categorias,nombre,' . $categoria->id_categoria . ',id_categoria',
-            'descripcion' => 'nullable|string|max:255',
-            'status' => 'nullable|boolean'
-        ]);
 
         $categoria->update($request->only([
             'nombre',

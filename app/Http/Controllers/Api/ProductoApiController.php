@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductoRequest;
 use App\Models\Producto;
 
 class ProductoApiController extends Controller
@@ -18,20 +18,8 @@ class ProductoApiController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ProductoRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string|max:200',
-            'stock_actual' => 'required|numeric|min:0',
-            'unidad_medida' => 'required|string|max:50',
-            'precio_compra' => 'nullable|numeric|min:0',
-            'precio_venta' => 'nullable|numeric|min:0',
-            'tipo' => 'required|in:insumo,venta',
-            'status' => 'nullable|boolean',
-            'id_categoria' => 'required|exists:categorias,id_categoria',
-        ]);
-
         $producto = Producto::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
@@ -61,21 +49,9 @@ class ProductoApiController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(ProductoRequest $request, $id)
     {
         $producto = Producto::findOrFail($id);
-
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string|max:200',
-            'stock_actual' => 'required|numeric|min:0',
-            'unidad_medida' => 'required|string|max:50',
-            'precio_compra' => 'nullable|numeric|min:0',
-            'precio_venta' => 'nullable|numeric|min:0',
-            'tipo' => 'required|in:insumo,venta',
-            'status' => 'nullable|boolean',
-            'id_categoria' => 'required|exists:categorias,id_categoria',
-        ]);
 
         $producto->update($request->only([
             'nombre',
