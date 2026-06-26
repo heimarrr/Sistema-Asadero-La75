@@ -26,7 +26,6 @@ class AuthApiController extends Controller
             ], 401);
         }
 
-        $usuario->tokens()->delete();
 
         // Crear token
         $token = $usuario->createToken('auth_token')->plainTextToken;

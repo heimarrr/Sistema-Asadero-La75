@@ -15,7 +15,7 @@ class CategoriaRequest extends FormRequest
 
     public function rules()
     {
-        $categoriaId = $this->route('id');
+        $categoriaId = $this->route('categoria') ?? collect($this->route()->parameters())->first();
 
         return [
             'nombre' => [

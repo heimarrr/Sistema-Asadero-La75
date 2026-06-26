@@ -89,6 +89,13 @@ Route::middleware('auth:sanctum')->group(function () {
             [ProductoApiController::class, 'toggleEstado']
         );
 
+        // Categorías
+        Route::apiResource('categorias', CategoriaApiController::class);
+        Route::post(
+            'categorias/{id}/toggle-estado',
+            [CategoriaApiController::class, 'toggleEstado']
+        );
+
 
     });
 });

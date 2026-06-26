@@ -1,95 +1,49 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Requests;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RolRequest;
-use App\Models\Rol;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\OnlyLetters;
+use App\Rules\AlphaNumericText;
 
-class RolesApiController extends Controller
+class RolRequest extends FormRequest
 {
-    public function index()
+    public function authorize()
     {
-        $roles = Rol::all();
-
-        return response()->json([
-            'success' => true,
-            'data' => $roles
-        ]);
+        return true;
     }
 
-    public function store(RolRequest $request)
+    public function rules()
     {
-        $rol = Rol::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'status' => $request->status ?? 1,
-        ]);
+        $rolId = $this->route('role') ?? collect($this->route()->parameters())->first();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Rol creado correctamente',
-            'data' => $rol
-        ], 201);
+        return [
+            'nombre' => [
+                'required',
+                'string',
+                'max:255',
+                'min:3',
+                new OnlyLetters,
+                $rolId
+                    ? 'unique:roles,nombre,' . $rolId . ',id_rol'
+                    : 'unique:roles,nombre',
+            ],
+            'descripcion' => [
+                'nullable',
+                'string',
+                'max:255',
+                new AlphaNumericText,
+            ],
+            'status' => 'nullable|boolean',
+        ];
     }
 
-    public function show($id)
+    public function messages()
     {
-        $rol = Rol::findOrFail($id);
-
-        return response()->json([
-            'success' => true,
-            'data' => $rol
-        ]);
-    }
-
-    public function update(RolRequest $request, $id)
-    {
-        $rol = Rol::findOrFail($id);
-
-        $rol->update($request->only([
-            'nombre',
-            'descripcion',
-            'status'
-        ]));
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Rol actualizado correctamente',
-            'data' => $rol
-        ]);
-    }
-
-    public function destroy($id)
-    {
-        try {
-            $rol = Rol::findOrFail($id);
-            $rol->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Rol eliminado correctamente'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No se puede eliminar el rol porque está asociado a usuarios'
-            ], 400);
-        }
-    }
-
-    public function toggleEstado($id)
-    {
-        $rol = Rol::findOrFail($id);
-
-        $rol->update([
-            'status' => !$rol->status
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Estado del rol actualizado correctamente',
-            'data' => $rol
-        ]);
+        return [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.unique' => 'Ya existe un rol con ese nombre.',
+            'nombre.min' => 'El nombre debe tener al menos 3 caracteres.',
+        ];
     }
 }

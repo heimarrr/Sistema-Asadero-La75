@@ -16,7 +16,7 @@ class ProveedorRequest extends FormRequest
 
     public function rules()
     {
-        $proveedorId = $this->route('id');
+        $proveedorId = $this->route('proveedore') ?? collect($this->route()->parameters())->first();
 
         return [
             'nombre' => [

@@ -15,7 +15,7 @@ class UsuarioRequest extends FormRequest
 
     public function rules()
     {
-        $usuarioId = $this->route('id');
+        $usuarioId = $this->route('usuario') ?? collect($this->route()->parameters())->first();
         $esUpdate = (bool) $usuarioId;
 
         return [
