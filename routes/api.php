@@ -46,7 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
     | ADMIN + COMPRAS
     |--------------------------------------------------------------------------
     */
-    Route::middleware('role:1,2')->group(function () {
+    Route::middleware('role:1,3')->group(function () {
 
         // Proveedores
         Route::apiResource('proveedores', ProveedorApiController::class);
@@ -73,7 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
     | ADMIN + CAJERO
     |--------------------------------------------------------------------------
     */
-    Route::middleware('role:1,3')->group(function () {
+    Route::middleware('role:1,2')->group(function () {
 
         Route::apiResource('ventas', VentaApiController::class);
     });
