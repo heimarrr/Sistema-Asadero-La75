@@ -11,8 +11,8 @@ class Compra extends Model
 {
     use HasFactory;
 
-    protected $table = 'compras'; 
-    protected $primaryKey = 'id_compra'; 
+    protected $table = 'compras';
+    protected $primaryKey = 'id_compra';
     protected $fillable = [
         'id_proveedor',
         'id_usuario',
@@ -33,6 +33,6 @@ class Compra extends Model
     
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario'); 
+        return $this->belongsTo(Usuario::class, 'id_usuario', 'id_usuario');
     }
 }
