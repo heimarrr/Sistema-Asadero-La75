@@ -22,6 +22,23 @@ class VentaApiController extends Controller
         ]);
     }
 
+    public function calcularTotalVenta(array $productos): float
+    {
+        $total = 0;
+
+        foreach ($productos as $producto) {
+            $subtotal = $producto['precio_unitario'] * $producto['cantidad'];
+            $total += $subtotal;
+        }
+
+        return $total;
+    }
+
+    public function validarStock(int $cantidad, int $stockDisponible): bool
+    {
+        return $cantidad <= $stockDisponible;
+    }
+
     public function store(VentaRequest $request)
     {
         DB::beginTransaction();
@@ -34,6 +51,9 @@ class VentaApiController extends Controller
 
                 $producto = Producto::findOrFail($item['id_producto']);
                 $cantidad = (int) $item['cantidad'];
+
+                $subtotal = $precioUnitario * $cantidad;
+                $totalCalculado += $subtotal;
 
                 if ($cantidad > $producto->stock_actual) {
                     throw new \Exception("Stock insuficiente para '{$producto->nombre}'");
@@ -87,7 +107,6 @@ class VentaApiController extends Controller
                 'message' => 'Venta registrada correctamente',
                 'data' => $venta
             ], 201);
-
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -148,7 +167,6 @@ class VentaApiController extends Controller
                 'success' => true,
                 'message' => 'Venta anulada correctamente'
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
 

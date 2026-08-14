@@ -16,5 +16,9 @@
         "sass": "^1.56.1",
         "tailwindcss": "^4.0.0",
         "vite": "^7.0.7"
+    },
+    "dependencies": {
+        "chromedriver": "^151.0.5",
+        "selenium-webdriver": "^4.47.0"
     }
 }
