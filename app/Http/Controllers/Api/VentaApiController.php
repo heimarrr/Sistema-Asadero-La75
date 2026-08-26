@@ -52,15 +52,17 @@ class VentaApiController extends Controller
                 $producto = Producto::findOrFail($item['id_producto']);
                 $cantidad = (int) $item['cantidad'];
 
-                $subtotal = $precioUnitario * $cantidad;
-                $totalCalculado += $subtotal;
-
+                // Verificar stock
                 if ($cantidad > $producto->stock_actual) {
-                    throw new \Exception("Stock insuficiente para '{$producto->nombre}'");
+                    throw new \Exception(
+                        "Stock insuficiente para '{$producto->nombre}'"
+                    );
                 }
 
+                // Calcular precio y subtotal
                 $precioUnitario = $producto->precio_venta;
                 $subtotal = $precioUnitario * $cantidad;
+
                 $totalCalculado += $subtotal;
 
                 $productosVenta[] = [
@@ -73,7 +75,10 @@ class VentaApiController extends Controller
 
             $venta = Venta::create([
                 'id_usuario' => Auth::id(),
-                'fecha' => $request->get('fecha', Carbon::now()->format('Y-m-d')),
+                'fecha' => $request->get(
+                    'fecha',
+                    Carbon::now()->format('Y-m-d')
+                ),
                 'total' => $totalCalculado,
                 'status' => 1,
             ]);
@@ -88,16 +93,12 @@ class VentaApiController extends Controller
                     'status' => 1,
                 ]);
 
-                // 🔥 Descontar stock
-                $item['producto']->decrement('stock_actual', $item['cantidad']);
+                // Descontar stock
+                $item['producto']->decrement(
+                    'stock_actual',
+                    $item['cantidad']
+                );
 
-                // 🔥 Regla especial (pollo)
-                if ($item['producto']->nombre === 'Pollo asado') {
-                    $polloCrudo = Producto::where('nombre', 'Pollo crudo')->first();
-                    if ($polloCrudo) {
-                        $polloCrudo->decrement('stock_actual', $item['cantidad']);
-                    }
-                }
             }
 
             DB::commit();
@@ -108,6 +109,7 @@ class VentaApiController extends Controller
                 'data' => $venta
             ], 201);
         } catch (\Exception $e) {
+
             DB::rollBack();
 
             return response()->json([
@@ -147,13 +149,6 @@ class VentaApiController extends Controller
 
                 if ($producto) {
                     $producto->increment('stock_actual', $detalle->cantidad);
-
-                    if ($producto->nombre === 'Pollo asado') {
-                        $polloCrudo = Producto::where('nombre', 'Pollo crudo')->first();
-                        if ($polloCrudo) {
-                            $polloCrudo->increment('stock_actual', $detalle->cantidad);
-                        }
-                    }
                 }
 
                 $detalle->update(['status' => 0]);

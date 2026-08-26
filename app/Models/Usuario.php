@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Usuario extends Authenticatable
 {
-    use HasApiTokens;
+    use HasApiTokens, HasFactory;
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
 

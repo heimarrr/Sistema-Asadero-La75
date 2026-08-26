@@ -16,8 +16,8 @@ class AuthApiController extends Controller
         // Detectar si es correo o usuario
         $campo = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'correo' : 'usuario';
         $usuario = Usuario::where($campo, $request->login)
-                          ->where('estado', 1)
-                          ->first();
+            ->where('estado', 1)
+            ->first();
 
         // Validar credenciales
         if (!$usuario || !Hash::check($request->password, $usuario->contrasena)) {
@@ -47,7 +47,11 @@ class AuthApiController extends Controller
     // LOGOUT
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        $token = $request->user()->currentAccessToken();
+
+        if ($token && method_exists($token, 'delete')) {
+            $token->delete();
+        }
 
         return response()->json([
             'message' => 'Sesión cerrada correctamente'

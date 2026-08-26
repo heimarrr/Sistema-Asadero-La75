@@ -18,6 +18,8 @@ Route::post('/login', [AuthApiController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+
     /*
     |--------------------------------------------------------------------------
     | ADMINISTRADOR
@@ -95,7 +97,5 @@ Route::middleware('auth:sanctum')->group(function () {
             'categorias/{id}/toggle-estado',
             [CategoriaApiController::class, 'toggleEstado']
         );
-
-
     });
 });
