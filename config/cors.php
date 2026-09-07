@@ -8,7 +8,8 @@ return [
 
     'allowed_origins' => [
         'http://localhost:5173',
-        'https://sistema-asadero-la75-front-chi.vercel.app/'],
+        'https://sistema-asadero-la75-front-chi.vercel.app/'
+    ],
 
     'allowed_origins_patterns' => [],
 
